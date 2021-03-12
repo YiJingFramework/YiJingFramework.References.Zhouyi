@@ -1,0 +1,32 @@
+﻿// Comments and trailing commas are allowed.
+{
+  // The pattern to be used when calling Hexagrams.ToString().
+  //
+  // {0}: A new line. This depends on the running environment.
+  //
+  // {1}: The index of the hexagram in Zhouyi.
+  // {2}: The name of the hexagram.
+  // {3}: The text of the whole hexagram.
+  //
+  // {4}: The attribute of the first line.
+  // {5}: The text of the first line.
+  //
+  // {6}: The attribute of the second line.
+  // {7}: The text of the second line.
+  //
+  // {8}: The attribute of the third line.
+  // {9}: The text of the third line.
+  //
+  // {10}: The attribute of the fourth line.
+  // {11}: The text of the fourth line.
+  //
+  // {12}: The attribute of the fifth line.
+  // {13}: The text of the fifth line.
+  //
+  // {14}: The attribute of the sixth line.
+  // {15}: The text of the sixth line.
+  //
+  // {16}: The apply nines or apply sixes if it exists;
+  // otherwise, an empty string if it doesn't exists.
+  "HexagramsToStringPattern": "第{1}卦 {2}{0}{3}{0}初{4}：{5}{0}{6}二：{7}{0}{8}三：{9}{0}{10}四：{11}{0}{12}五：{13}{0}上{14}：{15}{0}{16}"
+}
