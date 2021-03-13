@@ -9,13 +9,11 @@ using YiJingFramework.References.Zhouyi.Exceptions;
 
 namespace YiJingFramework.References.Zhouyi.Translations
 {
-    public sealed class MiscTranslations
+    public sealed class Numbers
     {
         private readonly string[] cardinal;
         private readonly string[] ordinal;
-        public string Yin { get; }
-        public string Yang { get; }
-        private sealed record Translations(string Yin, string Yang, string[] Cardinal,string[] Ordinal);
+        private sealed record Translations(string[] Cardinal,string[] Ordinal);
         public string GetCardinal(int number)
         {
             if (number is < 1 or > 64)
@@ -24,10 +22,6 @@ namespace YiJingFramework.References.Zhouyi.Translations
                     number, 
                     $"{nameof(number)} should be between 1 and 64.");
             return this.cardinal[number - 1];
-        }
-        internal string GetCardinalByIndex(int index)
-        {
-            return this.cardinal[index];
         }
         public string GetOrdinal(int number)
         {
@@ -38,13 +32,15 @@ namespace YiJingFramework.References.Zhouyi.Translations
                     $"{nameof(number)} should be between 1 and 64.");
             return this.ordinal[number - 1];
         }
-        internal string GetOrdinalByIndex(int index)
+        private static bool CheckLongerAndNullValue<T>(T?[] array, int length) where T : class
         {
-            return this.ordinal[index];
+            return array is not null &&
+                array.Length >= length &&
+                !array.Contains(null);
         }
 
         /// <exception cref="CannotReadTranslationException"></exception>
-        internal MiscTranslations(
+        internal Numbers(
             FileInfo file, JsonSerializerOptions baseOptions)
         {
             try
@@ -54,18 +50,17 @@ namespace YiJingFramework.References.Zhouyi.Translations
                 var translations =
                     JsonSerializer.Deserialize<Translations>(
                         str, baseOptions);
-                if (translations is null || 
-                    translations.Cardinal is null || translations.Ordinal is null
-                    || translations.Cardinal.Length < 64 || translations.Ordinal.Length < 64
-                    || translations.Yin is null || translations.Yang is null)
+                if (translations is not null &&
+                    CheckLongerAndNullValue(translations.Cardinal, 64) &&
+                   CheckLongerAndNullValue(translations.Ordinal, 64))
+                {
+                    this.ordinal = new string[64];
+                    Array.Copy(translations.Ordinal, this.ordinal, 64);
+                    this.cardinal = new string[64];
+                    Array.Copy(translations.Cardinal, this.cardinal, 64);
+                }
+                else
                     throw new CannotReadTranslationException($"File content invalid: {file.FullName}");
-
-                this.ordinal = new string[64];
-                Array.Copy(translations.Ordinal, this.ordinal, 64);
-                this.cardinal = new string[64];
-                Array.Copy(translations.Cardinal, this.cardinal, 64);
-                this.Yin = translations.Yin;
-                this.Yang = translations.Yang;
             }
             catch (IOException e)
             {

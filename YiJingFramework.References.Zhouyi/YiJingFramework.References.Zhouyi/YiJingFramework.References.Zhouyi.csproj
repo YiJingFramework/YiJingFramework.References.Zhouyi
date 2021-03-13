@@ -14,15 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="zhouyi\translations\names.json">
+    <None Update="zhouyi\translations\grams.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="zhouyi\translations\misc.json">
+    <None Update="zhouyi\translations\numbers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="zhouyi\translations\patterns.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="zhouyi\translations\texts\" />
   </ItemGroup>
 
 </Project>

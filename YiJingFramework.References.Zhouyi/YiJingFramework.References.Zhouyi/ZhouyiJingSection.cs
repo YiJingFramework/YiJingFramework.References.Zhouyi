@@ -16,8 +16,9 @@ namespace YiJingFramework.References.Zhouyi
     /// </summary>
     public sealed class ZhouyiJingSection
     {
-        public MiscTranslations NumberTranslations { get; }
-        public NamesTranslations NamesTranslations { get; }
+        public Numbers NumberTranslations { get; }
+        internal Grams GramsTranslations { get; }
+        internal Patterns Patterns { get; }
         public ZhouyiJingSection()
             : this(new DirectoryInfo(Path.GetFullPath("zhouyi/translations", AppContext.BaseDirectory))) { }
         public ZhouyiJingSection(DirectoryInfo translationsDirectory)
@@ -31,24 +32,41 @@ namespace YiJingFramework.References.Zhouyi
             };
             {
                 FileInfo fileInfo = new FileInfo(
-                    Path.Join(translationsDirectory.FullName, "misc.json"));
+                    Path.Join(translationsDirectory.FullName, "numbers.json"));
                 if (!fileInfo.Exists)
                     throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
-                this.NumberTranslations = new MiscTranslations(fileInfo, baseOptions);
+                this.NumberTranslations = new Numbers(fileInfo, baseOptions);
             }
             {
                 FileInfo fileInfo = new FileInfo(
                     Path.Join(translationsDirectory.FullName, "names.json"));
                 if (!fileInfo.Exists)
                     throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
-                this.NamesTranslations = new NamesTranslations(fileInfo, baseOptions);
+                this.GramsTranslations = new Grams(fileInfo, baseOptions);
             }
-
+            {
+                FileInfo fileInfo = new FileInfo(
+                    Path.Join(translationsDirectory.FullName, "patterns.json"));
+                if (!fileInfo.Exists)
+                    throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
+                this.Patterns = new Patterns(fileInfo, baseOptions);
+            }
         }
 
-        public Trigram GetTrigram(int index)
+        public ZhouyiTrigram GetTrigram(Core.Painting painting)
         {
-            return new Trigram(index, this.NamesTranslations.GetTrigramName(index));
+            if (painting.Count != 3)
+                throw new ArgumentException(
+                    $"{nameof(painting)} should represent a trigram.",
+                    nameof(painting));
+
+            int d = 0;
+            for (int i = 3; i >= 1; i--)
+            {
+                d = d << 1;
+                d += Convert.ToInt32(painting[i] == Core.LineAttribute.Yin);
+            }
+            return this.GramsTranslations.GetTrigram(d - 1);
         }
     }
 }

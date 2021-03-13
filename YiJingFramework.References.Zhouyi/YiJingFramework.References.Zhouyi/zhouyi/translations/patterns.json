@@ -1,6 +1,30 @@
-﻿// Comments and trailing commas are allowed.
-{
-  // The pattern to be used when calling Hexagrams.ToString().
+﻿{
+  // The pattern to be used when calling a yin line's ToString(),
+  //
+  // {0}: A new line. This depends on the running environment.
+  // {1}: Text of the line.
+  "YinLines": [
+    "初六：{1}",
+    "六二：{1}",
+    "六三：{1}",
+    "六四：{1}",
+    "上六：{1}"
+  ],
+
+  // The pattern to be used when calling a yang line's ToString(),
+  //
+  // {0}: A new line. This depends on the running environment.
+  // {1}: Text of the line.
+  "YangLines": [
+    "初九：{1}",
+    "九二：{1}",
+    "九三：{1}",
+    "九四：{1}",
+    "上九：{1}"
+  ],
+
+  // The pattern to be used when calling Hexagrams.ToString(),
+  // except for the 8 pure hexagrams.
   //
   // {0}: A new line. This depends on the running environment.
   //
@@ -8,25 +32,44 @@
   // {2}: The name of the hexagram.
   // {3}: The text of the whole hexagram.
   //
-  // {4}: The attribute of the first line.
-  // {5}: The text of the first line.
+  // {4}: The name of the lower trigram.
+  // {5}: The nature of the lower trigram.
+  // {6}: The name of the upper trigram.
+  // {7}: The nature of the upper trigram.
   //
-  // {6}: The attribute of the second line.
-  // {7}: The text of the second line.
+  // {8}: The first line.
+  // {9}: The second line.
+  // {10}: The third line.
+  // {11}: The fourth line.
+  // {12}: The fifth line.
+  // {13}: The sixth line.
   //
-  // {8}: The attribute of the third line.
-  // {9}: The text of the third line.
-  //
-  // {10}: The attribute of the fourth line.
-  // {11}: The text of the fourth line.
-  //
-  // {12}: The attribute of the fifth line.
-  // {13}: The text of the fifth line.
-  //
-  // {14}: The attribute of the sixth line.
-  // {15}: The text of the sixth line.
-  //
-  // {16}: The apply nines or apply sixes if it exists;
+  // {14}: The apply nines or apply sixes if it exists;
   // otherwise, an empty string if it doesn't exists.
-  "HexagramsToStringPattern": "第{1}卦 {2}{0}{3}{0}初{4}：{5}{0}{6}二：{7}{0}{8}三：{9}{0}{10}四：{11}{0}{12}五：{13}{0}上{14}：{15}{0}{16}"
+  "HexagramsToString": "第{1}卦 {2} {7}{5}{2} {6}上{4}下{0}{3}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}",
+
+  // The pattern to be used when calling Hexagrams.ToString(),
+  // except for the 8 pure hexagrams.
+  //
+  // {0}: A new line. This depends on the running environment.
+  //
+  // {1}: The index of the hexagram in Zhouyi.
+  // {2}: The name of the hexagram.
+  // {3}: The text of the whole hexagram.
+  //
+  // {4}: The name of the lower trigram.
+  // {5}: The nature of the lower trigram.
+  // {6}: The name of the upper trigram, same as {4}.
+  // {7}: The nature of the upper trigram, same as {5}.
+  //
+  // {8}: The first line.
+  // {9}: The second line.
+  // {10}: The third line.
+  // {11}: The fourth line.
+  // {12}: The fifth line.
+  // {13}: The sixth line.
+  //
+  // {14}: The apply nines or apply sixes if it exists;
+  // otherwise, an empty string if it doesn't exists.
+  "PureHexagramsToString": "第{1}卦 {2} {2}为{5} {6}上{4}下{0}{3}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}"
 }

@@ -1,5 +1,4 @@
-﻿// Comments and trailing commas are allowed.
-{
+﻿{
   // Name of the 8 trigrams.
   "Trigrams": [
     "乾",
@@ -10,6 +9,17 @@
     "坎",
     "艮",
     "坤"
+  ],
+  // The nature of the trigrams.
+  "TrigramNatures": [
+    "天",
+    "泽",
+    "火",
+    "雷",
+    "风",
+    "水",
+    "山",
+    "地"
   ],
   // Name of the 64 hexagrams, ordered by its index in Zhouyi.
   "Hexagrams": [
