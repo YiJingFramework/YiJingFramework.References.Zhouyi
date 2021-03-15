@@ -40,7 +40,7 @@ namespace YiJingFramework.References.Zhouyi
                 return this.Index.Equals(trigram?.Index);
             return false;
         }
-        
+
         public override string ToString()
         {
             return this.Name;
@@ -57,13 +57,9 @@ namespace YiJingFramework.References.Zhouyi
         }
 
         public static bool operator ==(ZhouyiTrigram? left, ZhouyiTrigram? right)
-        {
-            return left?.Index == right?.Index;
-        }
+            => left?.Index == right?.Index;
 
         public static bool operator !=(ZhouyiTrigram? left, ZhouyiTrigram? right)
-        {
-            return left?.Index != right?.Index;
-        }
+            => left?.Index != right?.Index;
     }
 }

@@ -13,8 +13,8 @@ namespace YiJingFramework.References.Zhouyi.Translations
     {
         private readonly Translations translations;
         private sealed record Translations(
-            string[] YinLines, 
-            string[] YangLines, 
+            string[] YinLines,
+            string[] YangLines,
             string HexagramsToString,
             string PureHexagramsToString);
 
@@ -23,17 +23,17 @@ namespace YiJingFramework.References.Zhouyi.Translations
             IEnumerable<string> BuildPlaceholders()
             {
                 yield return Environment.NewLine;
-                yield return ApplyPattern(hexagram.FirstLine);
-                yield return ApplyPattern(hexagram.SecondLine);
-                yield return ApplyPattern(hexagram.ThirdLine);
-                yield return ApplyPattern(hexagram.FourthLine);
-                yield return ApplyPattern(hexagram.FifthLine);
-                yield return ApplyPattern(hexagram.SixthLine);
+                yield return this.ApplyPattern(hexagram.FirstLine);
+                yield return this.ApplyPattern(hexagram.SecondLine);
+                yield return this.ApplyPattern(hexagram.ThirdLine);
+                yield return this.ApplyPattern(hexagram.FourthLine);
+                yield return this.ApplyPattern(hexagram.FifthLine);
+                yield return this.ApplyPattern(hexagram.SixthLine);
             }
             return string.Format(
                 hexagram.UpperTrigram.Equals(hexagram.LowerTrigram) ?
-                translations.PureHexagramsToString :
-                translations.HexagramsToString, BuildPlaceholders());
+                this.translations.PureHexagramsToString :
+                this.translations.HexagramsToString, BuildPlaceholders());
         }
         public string ApplyPattern(ZhouyiHexagram.Line line)
         {

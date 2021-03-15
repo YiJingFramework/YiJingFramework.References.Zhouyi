@@ -10,20 +10,20 @@ namespace YiJingFramework.References.Zhouyi
     {
         public sealed class Line : IEquatable<Line>, IComparable<Line>
         {
-            private Line(ZhouyiHexagram from, int index, Core.LineAttribute attribute, string text)
+            internal Line(ZhouyiHexagram from, int index, Core.LineAttribute attribute, string text)
             {
                 this.from = from;
                 this.LineIndex = index;
                 this.LineAttribute = attribute;
                 this.LineText = text;
             }
-            private ZhouyiHexagram from;
+            private readonly ZhouyiHexagram from;
             public int LineIndex { get; }
             public Core.LineAttribute LineAttribute { get; }
             public string LineText { get; }
             public override string ToString()
             {
-                return from.patterns.ApplyPattern(this);
+                return this.from.patterns.ApplyPattern(this);
             }
 
             public override bool Equals(object? obj)
@@ -34,18 +34,18 @@ namespace YiJingFramework.References.Zhouyi
             }
             public override int GetHashCode()
             {
-                return HashCode.Combine(from, LineIndex);
+                return HashCode.Combine(this.from, this.LineIndex);
             }
 
             public bool Equals(Line? other)
             {
-                return LineIndex.Equals(other?.LineIndex)
-                    && from.Equals(other?.from);
+                return this.LineIndex.Equals(other?.LineIndex)
+                    && this.from.Equals(other?.from);
             }
 
             public int CompareTo(Line? other)
             {
-                var v1 = from.CompareTo(other?.from);
+                var v1 = this.from.CompareTo(other?.from);
                 if (v1 != 0)
                     return v1;
                 return this.LineIndex.CompareTo(other?.LineIndex);

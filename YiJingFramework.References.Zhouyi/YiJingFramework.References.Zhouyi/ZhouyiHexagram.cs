@@ -8,20 +8,66 @@ using YiJingFramework.References.Zhouyi.Translations;
 
 namespace YiJingFramework.References.Zhouyi
 {
-    public sealed partial class ZhouyiHexagram: IEquatable<ZhouyiHexagram>, IComparable<ZhouyiHexagram>
+    public sealed partial class ZhouyiHexagram : IEquatable<ZhouyiHexagram>, IComparable<ZhouyiHexagram>
     {
-        Patterns patterns;
+        private readonly Patterns patterns;
         internal ZhouyiHexagram(ZhouyiJingSection zhouyi, int index, string name)
         {
-            this.Index = index;
-            this.Name = zhouyi.GramsTranslations.GetHexagramName(index);
-            this.patterns = zhouyi.Patterns;
+            {
+                this.Index = index;
+                this.patterns = zhouyi.Patterns;
+                this.Name = zhouyi.GramsTranslations.GetHexagramName(index);
+            }
+            {
+                var (upper, lower) = Maps.HexagramsToTrigrams.GetTrigrams(index);
+                this.UpperTrigram = zhouyi.GramsTranslations.GetTrigram(upper);
+                this.LowerTrigram = zhouyi.GramsTranslations.GetTrigram(lower);
+            }
+            var texts = zhouyi.TextTranslations.Get(index);
+            this.Text = texts.Text;
+            this.ApplyNinesOrApplySixes = zhouyi.TextTranslations.GetApplyNinesOrSixes(index);
+            {
+                var low = this.LowerTrigram.GetPainting();
+                this.FirstLine = new Line(this, 1, low[0], texts.Lines[0]);
+                this.SecondLine = new Line(this, 2, low[1], texts.Lines[1]);
+                this.ThirdLine = new Line(this, 3, low[2], texts.Lines[2]);
+            }
+            {
+                var up = this.LowerTrigram.GetPainting();
+                this.FourthLine = new Line(this, 4, up[0], texts.Lines[3]);
+                this.FifthLine = new Line(this, 5, up[1], texts.Lines[4]);
+                this.SixthLine = new Line(this, 6, up[2], texts.Lines[5]);
+            }
         }
         internal ZhouyiHexagram(ZhouyiJingSection zhouyi, Painting painting)
         {
+            {
+                this.LowerTrigram = zhouyi.GetTrigram(
+                    new Painting(painting[0], painting[1], painting[2]));
+                this.UpperTrigram = zhouyi.GetTrigram(
+                    new Painting(painting[3], painting[4], painting[5]));
+            }
+            {
+                this.Index = Maps.HexagramsToTrigrams.GetHexagram(
+                    this.LowerTrigram.Index, this.UpperTrigram.Index);
+                this.patterns = zhouyi.Patterns;
+                this.Name = zhouyi.GramsTranslations.GetHexagramName(this.Index);
+            }
+            var texts = zhouyi.TextTranslations.Get(this.Index);
+            this.Text = texts.Text;
+            this.ApplyNinesOrApplySixes = zhouyi.TextTranslations.GetApplyNinesOrSixes(this.Index);
+            {
+                this.FirstLine = new Line(this, 1, painting[0], texts.Lines[0]);
+                this.SecondLine = new Line(this, 2, painting[1], texts.Lines[1]);
+                this.ThirdLine = new Line(this, 3, painting[2], texts.Lines[2]);
+                this.FourthLine = new Line(this, 4, painting[3], texts.Lines[3]);
+                this.FifthLine = new Line(this, 5, painting[4], texts.Lines[4]);
+                this.SixthLine = new Line(this, 6, painting[5], texts.Lines[5]);
+            }
         }
 
         public string Text { get; }
+        public string? ApplyNinesOrApplySixes { get; }
 
         public int Index { get; }
         public string Name { get; }
@@ -29,12 +75,12 @@ namespace YiJingFramework.References.Zhouyi
         public Line GetLine(int index)
         {
             return index switch {
-                1 => FirstLine,
-                2 => SecondLine,
-                3 => ThirdLine,
-                4 => FourthLine,
-                5 => FifthLine,
-                6 => SixthLine,
+                1 => this.FirstLine,
+                2 => this.SecondLine,
+                3 => this.ThirdLine,
+                4 => this.FourthLine,
+                5 => this.FifthLine,
+                6 => this.SixthLine,
                 _ => throw new ArgumentOutOfRangeException(
                     nameof(index),
                     index,
@@ -45,14 +91,12 @@ namespace YiJingFramework.References.Zhouyi
         public Line FirstLine { get; }
         public Line SecondLine { get; }
         public Line ThirdLine { get; }
-        public Core.Painting LowerTrigram
-            => new Core.Painting(GetLowerTrigramAttributes());
+        public ZhouyiTrigram LowerTrigram { get; }
 
         public Line FourthLine { get; }
         public Line FifthLine { get; }
         public Line SixthLine { get; }
-        public Core.Painting UpperTrigram
-            => new Core.Painting(GetUpperTrigramAttributes());
+        public ZhouyiTrigram UpperTrigram { get; }
 
         private IEnumerable<Core.LineAttribute> GetLowerTrigramAttributes()
         {
@@ -96,7 +140,7 @@ namespace YiJingFramework.References.Zhouyi
         }
         public override string ToString()
         {
-            return patterns.ApplyPattern(this);
+            return this.patterns.ApplyPattern(this);
         }
     }
 }

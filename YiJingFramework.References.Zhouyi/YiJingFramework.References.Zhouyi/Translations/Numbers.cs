@@ -13,13 +13,13 @@ namespace YiJingFramework.References.Zhouyi.Translations
     {
         private readonly string[] cardinal;
         private readonly string[] ordinal;
-        private sealed record Translations(string[] Cardinal,string[] Ordinal);
+        private sealed record Translations(string[] Cardinal, string[] Ordinal);
         public string GetCardinal(int number)
         {
             if (number is < 1 or > 64)
                 throw new ArgumentOutOfRangeException(
-                    nameof(number), 
-                    number, 
+                    nameof(number),
+                    number,
                     $"{nameof(number)} should be between 1 and 64.");
             return this.cardinal[number - 1];
         }

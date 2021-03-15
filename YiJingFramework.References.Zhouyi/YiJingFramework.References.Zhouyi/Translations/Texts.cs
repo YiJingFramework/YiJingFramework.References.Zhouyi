@@ -1,44 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using YiJingFramework.References.Zhouyi.Exceptions;
 
 namespace YiJingFramework.References.Zhouyi.Translations
 {
     internal sealed class Texts
     {
-        private readonly Translations translations;
-        private sealed record Translations(
-            string[] YinLines,
-            string[] YangLines,
-            string HexagramsToString,
-            string PureHexagramsToString);
+        private readonly TextTranslations[] translations;
+        private readonly ApplyNinesAndSixes applyNinesAndSixes;
+        internal sealed record ApplyNinesAndSixes(
+            string Nines,
+            string Sixes);
+        internal sealed record TextTranslations(
+            string Text,
+            string[] Lines);
 
-        public string ApplyPattern(ZhouyiHexagram hexagram)
+        internal string? GetApplyNinesOrSixes(int index)
         {
-            IEnumerable<string> BuildPlaceholders()
-            {
-                yield return Environment.NewLine;
-                yield return ApplyPattern(hexagram.FirstLine);
-                yield return ApplyPattern(hexagram.SecondLine);
-                yield return ApplyPattern(hexagram.ThirdLine);
-                yield return ApplyPattern(hexagram.FourthLine);
-                yield return ApplyPattern(hexagram.FifthLine);
-                yield return ApplyPattern(hexagram.SixthLine);
-            }
-            return string.Format(
-                hexagram.UpperTrigram.Equals(hexagram.LowerTrigram) ?
-                translations.PureHexagramsToString :
-                translations.HexagramsToString, BuildPlaceholders());
-        }
-        public string ApplyPattern(ZhouyiHexagram.Line line)
-        {
-            var pattern = line.LineAttribute switch {
-                Core.LineAttribute.Yang => this.translations.YangLines,
-                _ => this.translations.YinLines
+            return index switch {
+                1 => this.applyNinesAndSixes.Nines,
+                2 => this.applyNinesAndSixes.Sixes,
+                _ => default
             };
-            return string.Format(pattern[line.LineIndex - 1], Environment.NewLine, line.LineText);
+        }
+        /// <summary>
+        /// Do not modify the results' inner values.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal TextTranslations Get(int index)
+        {
+            return this.translations[index - 1];
         }
 
         private static bool CheckLengthAndNullValue<T>(T?[] array, int length) where T : class
@@ -49,42 +46,82 @@ namespace YiJingFramework.References.Zhouyi.Translations
         }
 
         /// <exception cref="CannotReadTranslationException"></exception>
-        internal Patterns(
-            FileInfo file, JsonSerializerOptions baseOptions)
+        internal Texts(
+            DirectoryInfo directory, JsonSerializerOptions baseOptions)
         {
-            try
             {
-                using var stream = file.OpenText();
-                var str = stream.ReadToEnd();
-                var translations =
-                    JsonSerializer.Deserialize<Translations>(
-                        str, baseOptions);
-                if (translations is not null &&
-                     translations.HexagramsToString is not null &&
-                     translations.PureHexagramsToString is not null &&
-                    CheckLengthAndNullValue(translations.YinLines, 6) &&
-                    CheckLengthAndNullValue(translations.YangLines, 6))
+                var file = new FileInfo(
+                    Path.Join(directory.FullName, $"ApplyNinesAndSixes.json"));
+                try
                 {
-                    this.translations = translations;
+                    using var stream = file.OpenText();
+                    var str = stream.ReadToEnd();
+                    var translations =
+                        JsonSerializer.Deserialize<ApplyNinesAndSixes>(
+                            str, baseOptions);
+                    if (translations is not null &&
+                         translations.Nines is not null &&
+                         translations.Sixes is not null)
+                    {
+                        this.applyNinesAndSixes = translations;
+                    }
+                    else
+                        throw new CannotReadTranslationException($"File content invalid: {file.FullName}");
                 }
-                else
-                    throw new CannotReadTranslationException($"File content invalid: {file.FullName}");
+                catch (IOException e)
+                {
+                    throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                }
+                catch (JsonException e)
+                {
+                    throw new CannotReadTranslationException($"File content invalid: {file.FullName}", e);
+                }
+                catch (System.Security.SecurityException e)
+                {
+                    throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                }
             }
-            catch (IOException e)
+            this.translations = new TextTranslations[64];
+            for (int i = 1; i <= 64; i++)
             {
-                throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
-            }
-            catch (JsonException e)
-            {
-                throw new CannotReadTranslationException($"File content invalid: {file.FullName}", e);
-            }
-            catch (System.Security.SecurityException e)
-            {
-                throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                var file = new FileInfo(
+                    Path.Join(directory.FullName, $"H{i}.json"));
+                try
+                {
+                    using var stream = file.OpenText();
+                    var str = stream.ReadToEnd();
+                    var translations =
+                        JsonSerializer.Deserialize<TextTranslations>(
+                            str, baseOptions);
+                    if (translations is not null &&
+                         translations.Text is not null &&
+                        CheckLengthAndNullValue(translations.Lines, 6))
+                    {
+                        this.translations[i - 1] = translations;
+                    }
+                    else
+                        throw new CannotReadTranslationException($"File content invalid: {file.FullName}");
+                }
+                catch (IOException e)
+                {
+                    throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                }
+                catch (JsonException e)
+                {
+                    throw new CannotReadTranslationException($"File content invalid: {file.FullName}", e);
+                }
+                catch (System.Security.SecurityException e)
+                {
+                    throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    throw new CannotReadTranslationException($"File cannot read: {file.FullName}", e);
+                }
             }
         }
     }
