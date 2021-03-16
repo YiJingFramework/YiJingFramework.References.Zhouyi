@@ -12,7 +12,8 @@ namespace YiJingFramework.References.Zhouyi.Translations
     internal sealed class Texts
     {
         private readonly TextTranslations[] translations;
-        private readonly ApplyNinesAndSixes applyNinesAndSixes;
+        private readonly string applyNines;
+        private readonly string applySixes;
         internal sealed record ApplyNinesAndSixes(
             string Nines,
             string Sixes);
@@ -23,8 +24,8 @@ namespace YiJingFramework.References.Zhouyi.Translations
         internal string? GetApplyNinesOrSixes(int index)
         {
             return index switch {
-                1 => this.applyNinesAndSixes.Nines,
-                2 => this.applyNinesAndSixes.Sixes,
+                1 => this.applyNines,
+                2 => this.applySixes,
                 _ => default
             };
         }
@@ -63,7 +64,8 @@ namespace YiJingFramework.References.Zhouyi.Translations
                          translations.Nines is not null &&
                          translations.Sixes is not null)
                     {
-                        this.applyNinesAndSixes = translations;
+                        this.applyNines = translations.Nines;
+                        this.applySixes = translations.Sixes;
                     }
                     else
                         throw new CannotReadTranslationException($"File content invalid: {file.FullName}");

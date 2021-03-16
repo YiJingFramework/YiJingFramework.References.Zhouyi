@@ -10,13 +10,13 @@ namespace YiJingFramework.References.Zhouyi
 {
     public sealed partial class ZhouyiHexagram : IEquatable<ZhouyiHexagram>, IComparable<ZhouyiHexagram>
     {
-        private readonly Patterns patterns;
-        internal ZhouyiHexagram(ZhouyiJingSection zhouyi, int index, string name)
+        private Patterns Patterns { get; }
+        internal ZhouyiHexagram(Zhouyi zhouyi, int index, string name)
         {
             {
                 this.Index = index;
-                this.patterns = zhouyi.Patterns;
-                this.Name = zhouyi.GramsTranslations.GetHexagramName(index);
+                this.Patterns = zhouyi.Patterns;
+                this.Name = name;
             }
             {
                 var (upper, lower) = Maps.HexagramsToTrigrams.GetTrigrams(index);
@@ -33,13 +33,13 @@ namespace YiJingFramework.References.Zhouyi
                 this.ThirdLine = new Line(this, 3, low[2], texts.Lines[2]);
             }
             {
-                var up = this.LowerTrigram.GetPainting();
+                var up = this.UpperTrigram.GetPainting();
                 this.FourthLine = new Line(this, 4, up[0], texts.Lines[3]);
                 this.FifthLine = new Line(this, 5, up[1], texts.Lines[4]);
                 this.SixthLine = new Line(this, 6, up[2], texts.Lines[5]);
             }
         }
-        internal ZhouyiHexagram(ZhouyiJingSection zhouyi, Painting painting)
+        internal ZhouyiHexagram(Zhouyi zhouyi, Painting painting)
         {
             {
                 this.LowerTrigram = zhouyi.GetTrigram(
@@ -50,7 +50,7 @@ namespace YiJingFramework.References.Zhouyi
             {
                 this.Index = Maps.HexagramsToTrigrams.GetHexagram(
                     this.LowerTrigram.Index, this.UpperTrigram.Index);
-                this.patterns = zhouyi.Patterns;
+                this.Patterns = zhouyi.Patterns;
                 this.Name = zhouyi.GramsTranslations.GetHexagramName(this.Index);
             }
             var texts = zhouyi.TextTranslations.Get(this.Index);
@@ -140,7 +140,12 @@ namespace YiJingFramework.References.Zhouyi
         }
         public override string ToString()
         {
-            return this.patterns.ApplyPattern(this);
+            return this.Patterns.ApplyPattern(this);
         }
+        public static bool operator ==(ZhouyiHexagram? left, ZhouyiHexagram? right)
+            => left?.Index == right?.Index;
+
+        public static bool operator !=(ZhouyiHexagram? left, ZhouyiHexagram? right)
+            => left?.Index != right?.Index;
     }
 }

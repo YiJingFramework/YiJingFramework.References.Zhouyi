@@ -9,21 +9,11 @@ using YiJingFramework.References.Zhouyi.Exceptions;
 
 namespace YiJingFramework.References.Zhouyi.Translations
 {
-    public sealed class Numbers
+    internal sealed class Numbers
     {
-        private readonly string[] cardinal;
         private readonly string[] ordinal;
-        private sealed record Translations(string[] Cardinal, string[] Ordinal);
-        public string GetCardinal(int number)
-        {
-            if (number is < 1 or > 64)
-                throw new ArgumentOutOfRangeException(
-                    nameof(number),
-                    number,
-                    $"{nameof(number)} should be between 1 and 64.");
-            return this.cardinal[number - 1];
-        }
-        public string GetOrdinal(int number)
+        private sealed record Translations(string[] Ordinal);
+        internal string GetOrdinal(int number)
         {
             if (number is < 1 or > 64)
                 throw new ArgumentOutOfRangeException(
@@ -51,13 +41,10 @@ namespace YiJingFramework.References.Zhouyi.Translations
                     JsonSerializer.Deserialize<Translations>(
                         str, baseOptions);
                 if (translations is not null &&
-                    CheckLongerAndNullValue(translations.Cardinal, 64) &&
                    CheckLongerAndNullValue(translations.Ordinal, 64))
                 {
                     this.ordinal = new string[64];
                     Array.Copy(translations.Ordinal, this.ordinal, 64);
-                    this.cardinal = new string[64];
-                    Array.Copy(translations.Cardinal, this.cardinal, 64);
                 }
                 else
                     throw new CannotReadTranslationException($"File content invalid: {file.FullName}");

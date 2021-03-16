@@ -1,4 +1,16 @@
 ﻿{
+  // The pattern to be used for apply nines when calling a hexagram's ToString(),
+  //
+  // {0}: A new line. This depends on the running environment.
+  // {1}: The apply nines.
+  "ApplyNines": "用九：{1}{0}",
+
+  // The pattern to be used for apply sixes when calling a hexagram's ToString(),
+  //
+  // {0}: A new line. This depends on the running environment.
+  // {1}: The apply sixes.
+  "ApplySixes": "用六：{1}{0}",
+
   // The pattern to be used when calling a yin line's ToString(),
   //
   // {0}: A new line. This depends on the running environment.

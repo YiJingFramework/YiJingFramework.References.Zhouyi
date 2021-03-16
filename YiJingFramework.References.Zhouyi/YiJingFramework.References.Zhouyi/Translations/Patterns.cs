@@ -12,28 +12,50 @@ namespace YiJingFramework.References.Zhouyi.Translations
     internal sealed class Patterns
     {
         private readonly Translations translations;
+        private readonly Numbers numbers;
         private sealed record Translations(
             string[] YinLines,
             string[] YangLines,
             string HexagramsToString,
-            string PureHexagramsToString);
+            string PureHexagramsToString,
+            string ApplyNines,
+            string ApplySixes);
 
         public string ApplyPattern(ZhouyiHexagram hexagram)
         {
             IEnumerable<string> BuildPlaceholders()
             {
                 yield return Environment.NewLine;
+
+                yield return this.numbers.GetOrdinal(hexagram.Index);
+                yield return hexagram.Name;
+                yield return hexagram.Text;
+
+                yield return hexagram.LowerTrigram.Name;
+                yield return hexagram.LowerTrigram.Nature;
+                yield return hexagram.UpperTrigram.Name;
+                yield return hexagram.UpperTrigram.Nature;
+
                 yield return this.ApplyPattern(hexagram.FirstLine);
                 yield return this.ApplyPattern(hexagram.SecondLine);
                 yield return this.ApplyPattern(hexagram.ThirdLine);
                 yield return this.ApplyPattern(hexagram.FourthLine);
                 yield return this.ApplyPattern(hexagram.FifthLine);
                 yield return this.ApplyPattern(hexagram.SixthLine);
+
+                yield return hexagram.Index switch {
+                    1 => string.Format(this.translations.ApplyNines
+                    , Environment.NewLine, hexagram.ApplyNinesOrApplySixes),
+                    2 => string.Format(this.translations.ApplySixes
+                    , Environment.NewLine, hexagram.ApplyNinesOrApplySixes),
+                    _ => string.Empty
+                };
             }
+
             return string.Format(
                 hexagram.UpperTrigram.Equals(hexagram.LowerTrigram) ?
                 this.translations.PureHexagramsToString :
-                this.translations.HexagramsToString, BuildPlaceholders());
+                this.translations.HexagramsToString, BuildPlaceholders().ToArray());
         }
         public string ApplyPattern(ZhouyiHexagram.Line line)
         {
@@ -53,8 +75,9 @@ namespace YiJingFramework.References.Zhouyi.Translations
 
         /// <exception cref="CannotReadTranslationException"></exception>
         internal Patterns(
-            FileInfo file, JsonSerializerOptions baseOptions)
+            FileInfo file, JsonSerializerOptions baseOptions, Numbers numbers)
         {
+            this.numbers = numbers;
             try
             {
                 using var stream = file.OpenText();

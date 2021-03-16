@@ -1,6 +1,7 @@
 {
   // Text of the whole hexagram.
   "Text": "元，亨，利，贞。",
+
   // Text of the lines.
   "Lines": [
     "潜龙，勿用。",

@@ -12,19 +12,19 @@ using YiJingFramework.References.Zhouyi.Translations;
 namespace YiJingFramework.References.Zhouyi
 {
     /// <summary>
-    /// 《周易》经部。
-    /// The jing section of Zhouyi, Zhouyi's main part.
+    /// 《周易》。
+    /// Zhouyi.
     /// </summary>
-    public sealed class ZhouyiJingSection
+    public sealed class Zhouyi
     {
-        public Numbers NumberTranslations { get; }
+        internal Numbers NumberTranslations { get; }
         internal Grams GramsTranslations { get; }
         internal Patterns Patterns { get; }
         internal Texts TextTranslations { get; }
 
-        public ZhouyiJingSection()
+        public Zhouyi()
             : this(new DirectoryInfo(Path.GetFullPath("zhouyi/translations", AppContext.BaseDirectory))) { }
-        public ZhouyiJingSection(DirectoryInfo translationsDirectory)
+        public Zhouyi(DirectoryInfo translationsDirectory)
         {
             if (!translationsDirectory.Exists)
                 throw new CannotReadTranslationException($"Cannot find directory: {translationsDirectory.FullName}");
@@ -52,7 +52,7 @@ namespace YiJingFramework.References.Zhouyi
                     Path.Join(translationsDirectory.FullName, "patterns.json"));
                 if (!fileInfo.Exists)
                     throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
-                this.Patterns = new Patterns(fileInfo, baseOptions);
+                this.Patterns = new Patterns(fileInfo, baseOptions, this.NumberTranslations);
             }
             {
                 DirectoryInfo fileInfo = new DirectoryInfo(

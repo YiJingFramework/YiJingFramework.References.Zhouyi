@@ -9,15 +9,15 @@ using YiJingFramework.References.Zhouyi;
 namespace YiJingFramework.References.Zhouyi.Tests
 {
     [TestClass()]
-    public class ZhouyiJingSectionTests
+    public class ZhouyiTests
     {
         [TestMethod()]
         public void ZhouyiJingSectionTest()
         {
-            _ = new ZhouyiJingSection();
+            _ = new Zhouyi();
         }
 
-        private readonly ZhouyiJingSection yijing = new ZhouyiJingSection();
+        private readonly Zhouyi yijing = new Zhouyi();
         [TestMethod()]
         public void GetHexagramTest()
         {

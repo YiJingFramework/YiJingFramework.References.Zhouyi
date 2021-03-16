@@ -21,7 +21,7 @@ namespace YiJingFramework.References.Zhouyi
         {
             var index = this.Index - 1;
             var first = index >> 2;
-            var second = index >> 1 - first * 2;
+            var second = (index >> 1) - first * 2;
             var third = index - first * 4 - second * 2;
             return new Core.Painting(
                 first == 0 ? Core.LineAttribute.Yang : Core.LineAttribute.Yin,
