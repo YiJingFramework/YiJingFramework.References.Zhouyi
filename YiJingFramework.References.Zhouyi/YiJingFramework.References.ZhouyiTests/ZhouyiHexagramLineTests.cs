@@ -39,13 +39,13 @@ namespace YiJingFramework.References.Zhouyi.Tests
         [TestMethod()]
         public void PropertiesTest()
         {
-            var line = qian.GetLine(1);
-            Assert.AreEqual(qian, line.From);
+            var line = this.qian.GetLine(1);
+            Assert.AreEqual(this.qian, line.From);
             Assert.AreEqual(Core.LineAttribute.Yang, line.LineAttribute);
             Assert.AreEqual(1, line.LineIndex);
             Assert.AreEqual("潜龙，勿用。", line.LineText);
 
-            line = weiJi.FifthLine;
+            line = this.weiJi.FifthLine;
             Assert.AreEqual(this.yijing.GetHexagram(new Core.Painting(
                 Core.LineAttribute.Yin,
                 Core.LineAttribute.Yang,
@@ -58,19 +58,19 @@ namespace YiJingFramework.References.Zhouyi.Tests
             Assert.AreEqual(5, line.LineIndex);
             Assert.AreEqual("贞吉，无悔，君子之光，有孚，吉。", line.LineText);
 
-            Assert.AreEqual("师出以律，否臧凶。", shi.FirstLine.LineText);
-            Assert.AreEqual("在师中，吉无咎，王三锡命。", shi.SecondLine.LineText);
-            Assert.AreEqual("师或舆尸，凶。", shi.ThirdLine.LineText);
-            Assert.AreEqual("师左次，无咎。", shi.FourthLine.LineText);
-            Assert.AreEqual("田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶。", shi.FifthLine.LineText);
-            Assert.AreEqual("大君有命，开国承家，小人勿用。", shi.SixthLine.LineText);
+            Assert.AreEqual("师出以律，否臧凶。", this.shi.FirstLine.LineText);
+            Assert.AreEqual("在师中，吉无咎，王三锡命。", this.shi.SecondLine.LineText);
+            Assert.AreEqual("师或舆尸，凶。", this.shi.ThirdLine.LineText);
+            Assert.AreEqual("师左次，无咎。", this.shi.FourthLine.LineText);
+            Assert.AreEqual("田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶。", this.shi.FifthLine.LineText);
+            Assert.AreEqual("大君有命，开国承家，小人勿用。", this.shi.SixthLine.LineText);
         }
 
         [TestMethod()]
         public void ToStringTest()
         {
             Assert.AreEqual("六五：田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶。",
-                shi.FifthLine.ToString());
+                this.shi.FifthLine.ToString());
         }
 
         [TestMethod()]
@@ -114,7 +114,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void GetHashCodeTest()
         {
             Random r = new Random();
-            for (int i = 0; i < 1000000; )
+            for (int i = 0; i < 1000000;)
             {
                 Core.Painting painting1 = new Core.Painting(
                     (Core.LineAttribute)r.Next(0, 2),
@@ -132,8 +132,8 @@ namespace YiJingFramework.References.Zhouyi.Tests
                     (Core.LineAttribute)r.Next(0, 2));
                 if (r.Next(0, 2) == 0)
                 {
-                    var line1 = yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));
-                    var line2 = yijing.GetHexagram(painting2).GetLine(r.Next(1, 7));
+                    var line1 = this.yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));
+                    var line2 = this.yijing.GetHexagram(painting2).GetLine(r.Next(1, 7));
                     if (line1.GetHashCode() != line2.GetHashCode())
                     {
                         i++;
@@ -146,8 +146,8 @@ namespace YiJingFramework.References.Zhouyi.Tests
                 }
                 else
                 {
-                    var line1 = yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));
-                    var line2 = yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));
+                    var line1 = this.yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));
+                    var line2 = this.yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));
                     if (line1.GetHashCode() != line2.GetHashCode())
                     {
                         i++;

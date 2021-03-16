@@ -22,8 +22,31 @@ namespace YiJingFramework.References.Zhouyi
         internal Patterns Patterns { get; }
         internal Texts TextTranslations { get; }
 
+        /// <summary>
+        /// 创建新实例。
+        /// 默认使用的翻译目录为 <c>./zhouyi/translations</c> 。
+        /// Initialize a new instance.
+        /// The default translations directory is <c>./zhouyi/translations</c>.
+        /// </summary>
+        /// <exception cref="CannotReadTranslationException">
+        /// 读取翻译失败。
+        /// Cannot read the translations.
+        /// </exception>
         public Zhouyi()
             : this(new DirectoryInfo(Path.GetFullPath("zhouyi/translations", AppContext.BaseDirectory))) { }
+
+        /// <summary>
+        /// 创建新实例。
+        /// Initialize a new instance.
+        /// </summary>
+        /// <param name="translationsDirectory">
+        /// 翻译目录。
+        /// The translations directory.
+        /// </param>
+        /// <exception cref="CannotReadTranslationException">
+        /// 读取翻译失败。
+        /// Cannot read the translations.
+        /// </exception>
         public Zhouyi(DirectoryInfo translationsDirectory)
         {
             if (!translationsDirectory.Exists)
@@ -63,6 +86,27 @@ namespace YiJingFramework.References.Zhouyi
             }
         }
 
+
+        /// <summary>
+        /// 通过卦画获取别卦。
+        /// Get a hexagram by its painting.
+        /// </summary>
+        /// <param name="painting">
+        /// 卦画。
+        /// The painting.
+        /// </param>
+        /// <returns>
+        /// 结果。
+        /// The result.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="painting"/> 是 <c>null</c> 。
+        /// <paramref name="painting"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="painting"/> 不表示一个别卦。
+        /// <paramref name="painting"/> can't represent a hexagram.
+        /// </exception>
         public ZhouyiHexagram GetHexagram(Core.Painting painting)
         {
             if (painting.Count != 6)
@@ -72,8 +116,31 @@ namespace YiJingFramework.References.Zhouyi
 
             return new ZhouyiHexagram(this, painting);
         }
+
+        /// <summary>
+        /// 通过卦名获取别卦。
+        /// Get a hexagram by its name.
+        /// </summary>
+        /// <param name="name">
+        /// 卦名。
+        /// The name.
+        /// </param>
+        /// <param name="result">
+        /// 结果。
+        /// The result.
+        /// </param>
+        /// <returns>
+        /// 一个值，指示是否获取成功。
+        /// A value indicates whether the hexagram has been found or not.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="name"/> 是 <c>null</c> 。
+        /// <paramref name="name"/> is <c>null</c>.
+        /// </exception>
         public bool TryGetHexagram(string name, [MaybeNullWhen(false)] out ZhouyiHexagram result)
         {
+            if (name is null)
+                throw new ArgumentNullException(nameof(name));
             if (this.GramsTranslations.TryGetHexagramIndex(name, out var t))
             {
                 result = new ZhouyiHexagram(this, t, name);
@@ -82,8 +149,31 @@ namespace YiJingFramework.References.Zhouyi
             result = null;
             return false;
         }
+
+        /// <summary>
+        /// 通过卦画获取经卦。
+        /// Get a trigram by its painting.
+        /// </summary>
+        /// <param name="painting">
+        /// 卦画。
+        /// The painting.
+        /// </param>
+        /// <returns>
+        /// 结果。
+        /// The result.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="painting"/> 是 <c>null</c> 。
+        /// <paramref name="painting"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="painting"/> 不表示一个经卦。
+        /// <paramref name="painting"/> can't represent a trigram.
+        /// </exception>
         public ZhouyiTrigram GetTrigram(Core.Painting painting)
         {
+            if (painting is null)
+                throw new ArgumentNullException(nameof(painting));
             if (painting.Count != 3)
                 throw new ArgumentException(
                     $"{nameof(painting)} should represent a trigram.",
@@ -98,8 +188,30 @@ namespace YiJingFramework.References.Zhouyi
             return this.GramsTranslations.GetTrigram(d + 1);
         }
 
+        /// <summary>
+        /// 通过卦名获取经卦。
+        /// Get a trigram by its name.
+        /// </summary>
+        /// <param name="name">
+        /// 卦名。
+        /// The name.
+        /// </param>
+        /// <param name="result">
+        /// 结果。
+        /// The result.
+        /// </param>
+        /// <returns>
+        /// 一个值，指示是否获取成功。
+        /// A value indicates whether the trigram has been found or not.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="name"/> 是 <c>null</c> 。
+        /// <paramref name="name"/> is <c>null</c>.
+        /// </exception>
         public bool TryGetTrigram(string name, [MaybeNullWhen(false)] out ZhouyiTrigram result)
         {
+            if (name is null)
+                throw new ArgumentNullException(nameof(name));
             return this.GramsTranslations.TryGetTrigramByName(name, out result);
         }
     }

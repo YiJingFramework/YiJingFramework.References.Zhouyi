@@ -47,14 +47,14 @@ namespace YiJingFramework.References.Zhouyi.Tests
                 this.yijing.GetHexagram(this.qian.GetPainting().ToLaterallyLinked())
                 .ApplyNinesOrApplySixes);
             Assert.AreEqual(64, this.weiJi.Index);
-            Assert.IsTrue(yijing.TryGetTrigram("坎", out var kan));
+            Assert.IsTrue(this.yijing.TryGetTrigram("坎", out var kan));
             Assert.AreEqual(kan, this.weiJi.LowerTrigram);
             Assert.AreEqual(
                 this.yijing.GetHexagram(this.qian.GetPainting().ToLaterallyLinked()).UpperTrigram
                 , this.shi.UpperTrigram);
-            Assert.AreEqual("未济", weiJi.Name);
+            Assert.AreEqual("未济", this.weiJi.Name);
 
-            Assert.AreEqual("元，亨，利，贞。", qian.Text);
+            Assert.AreEqual("元，亨，利，贞。", this.qian.Text);
         }
 
         [TestMethod()]

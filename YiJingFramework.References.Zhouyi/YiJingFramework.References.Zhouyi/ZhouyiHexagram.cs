@@ -8,6 +8,10 @@ using YiJingFramework.References.Zhouyi.Translations;
 
 namespace YiJingFramework.References.Zhouyi
 {
+    /// <summary>
+    /// 《周易》别卦。
+    /// A hexagram in Zhouyi.
+    /// </summary>
     public sealed partial class ZhouyiHexagram : IEquatable<ZhouyiHexagram>, IComparable<ZhouyiHexagram>
     {
         private Patterns Patterns { get; }
@@ -66,12 +70,42 @@ namespace YiJingFramework.References.Zhouyi
             }
         }
 
+        /// <summary>
+        /// 卦辞。
+        /// Text of the hexagram.
+        /// </summary>
         public string Text { get; }
+
+        /// <summary>
+        /// 用九或用六。
+        /// Apply nines or apply sixes.
+        /// </summary>
         public string? ApplyNinesOrApplySixes { get; }
 
+        /// <summary>
+        /// 一个从 1 开始的序号，反映其在《周易》中的位置。
+        /// A 1-based index of the hexagram represents its position in Zhouyi.
+        /// </summary>
         public int Index { get; }
+
+        /// <summary>
+        /// 卦名。
+        /// Name of the hexagram.
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// 根据爻序号获取一行。
+        /// Get a line by the line index.
+        /// </summary>
+        /// <param name="index">
+        /// 一个从 1 开始的爻序号。
+        /// A 1-based line index.
+        /// </param>
+        /// <returns>
+        /// 爻。
+        /// The line.
+        /// </returns>
         public Line GetLine(int index)
         {
             return index switch {
@@ -88,40 +122,94 @@ namespace YiJingFramework.References.Zhouyi
             };
         }
 
+        /// <summary>
+        /// 初爻。
+        /// The first line.
+        /// </summary>
         public Line FirstLine { get; }
+
+        /// <summary>
+        /// 第二爻。
+        /// The second line.
+        /// </summary>
         public Line SecondLine { get; }
+
+        /// <summary>
+        /// 第三爻。
+        /// The third line.
+        /// </summary>
         public Line ThirdLine { get; }
+
+        /// <summary>
+        /// 主卦。
+        /// The lower trigram.
+        /// </summary>
         public ZhouyiTrigram LowerTrigram { get; }
 
+        /// <summary>
+        /// 第四爻。
+        /// The fourth line.
+        /// </summary>
         public Line FourthLine { get; }
+
+        /// <summary>
+        /// 第五爻。
+        /// The fifth line.
+        /// </summary>
         public Line FifthLine { get; }
+
+        /// <summary>
+        /// 上爻。
+        /// The sixth line.
+        /// </summary>
         public Line SixthLine { get; }
+
+        /// <summary>
+        /// 客卦。
+        /// The upper trigram.
+        /// </summary>
         public ZhouyiTrigram UpperTrigram { get; }
 
-        private IEnumerable<Core.LineAttribute> GetLowerTrigramAttributes()
+        private IEnumerable<Core.LineAttribute> GetAttributes()
         {
             yield return this.FirstLine.LineAttribute;
             yield return this.SecondLine.LineAttribute;
             yield return this.ThirdLine.LineAttribute;
-        }
-        private IEnumerable<Core.LineAttribute> GetUpperTrigramAttributes()
-        {
             yield return this.FourthLine.LineAttribute;
             yield return this.FifthLine.LineAttribute;
             yield return this.SixthLine.LineAttribute;
         }
 
+        /// <summary>
+        /// 获取卦画。
+        /// Get the painting of the hexagram.
+        /// </summary>
+        /// <returns>
+        /// 卦画。
+        /// The painting.
+        /// </returns>
         public Core.Painting GetPainting()
         {
-            return new Core.Painting(this.GetLowerTrigramAttributes()
-                .Concat(this.GetUpperTrigramAttributes()));
+            return new Core.Painting(this.GetAttributes());
         }
 
+        /// <summary>
+        /// 来自不同的 <see cref="Zhouyi"/> 实例的卦也可能被视为相等。
+        /// Hexagrams from different <see cref="Zhouyi"/> instances may also be regarded same.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(ZhouyiHexagram? other)
         {
             return this.Index.Equals(other?.Index);
         }
 
+        /// <summary>
+        /// 来自不同的 <see cref="Zhouyi"/> 实例的卦也可能被视为相等。
+        /// Hexagrams from different <see cref="Zhouyi"/> instances may also be regarded same.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object? obj)
         {
             if (obj is ZhouyiHexagram hexagram)
@@ -129,22 +217,56 @@ namespace YiJingFramework.References.Zhouyi
             return false;
         }
 
+        /// <summary>
+        /// 来自不同的 <see cref="Zhouyi"/> 实例的卦也可能被视为相等。
+        /// Hexagrams from different <see cref="Zhouyi"/> instances may also be regarded same.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(ZhouyiHexagram? other)
         {
             return this.Index.CompareTo(other?.Index);
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return this.Index;
         }
+
+        /// <summary>
+        /// 根据模板获取一个字符串表示。
+        /// Get a string representation of the hexagram according to the patterns.
+        /// </summary>
+        /// <returns>
+        /// 字符串表示。
+        /// The string representation.
+        /// </returns>
         public override string ToString()
         {
             return this.Patterns.ApplyPattern(this);
         }
+
+        /// <summary>
+        /// 来自不同的 <see cref="Zhouyi"/> 实例的卦也可能被视为相等。
+        /// Hexagrams from different <see cref="Zhouyi"/> instances may also be regarded same.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==(ZhouyiHexagram? left, ZhouyiHexagram? right)
             => left?.Index == right?.Index;
 
+        /// <summary>
+        /// 来自不同的 <see cref="Zhouyi"/> 实例的卦也可能被视为相等。
+        /// Hexagrams from different <see cref="Zhouyi"/> instances may also be regarded same.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(ZhouyiHexagram? left, ZhouyiHexagram? right)
             => left?.Index != right?.Index;
     }
