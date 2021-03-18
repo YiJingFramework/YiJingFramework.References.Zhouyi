@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TranslationFilePacker": {
+      "commandName": "Project",
+      "commandLineArgs": "abc.json output.json"
+    }
+  }
+}
