@@ -6,11 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YiJingFramework.References.Zhouyi\YiJingFramework.References.Zhouyi.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="abc.json">
+    <None Update="myTranslation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

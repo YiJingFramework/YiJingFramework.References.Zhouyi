@@ -2,7 +2,7 @@
   "profiles": {
     "TranslationFilePacker": {
       "commandName": "Project",
-      "commandLineArgs": "abc.json output.json"
+      "commandLineArgs": "myTranslation.json output.json"
     }
   }
 }

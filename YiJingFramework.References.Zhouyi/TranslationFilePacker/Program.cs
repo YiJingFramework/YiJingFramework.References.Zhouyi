@@ -10,14 +10,18 @@ namespace TranslationFilePacker
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("======================");
+            Console.WriteLine("Translation File Packer For YiJingFramework.References.Zhouyi.");
             if (args.Length != 2)
             {
-                Console.WriteLine("Translation File Packer For YiJingFramework.References.Zhouyi.");
                 Console.WriteLine("Package version: 2.0.0.");
                 Console.WriteLine("Format: <InputFile> <OutputFile>");
+                Console.WriteLine("======================");
                 return;
             }
+            Console.WriteLine("======================");
 
+            Console.WriteLine("Reading...");
             var inp = File.ReadAllText(args[0]);
             JsonSerializerOptions options
                = new JsonSerializerOptions() {
@@ -28,7 +32,16 @@ namespace TranslationFilePacker
                };
             var translation = JsonSerializer.Deserialize<TranslationFile>(
                      inp, options);
-            File.WriteAllText(args[1], JsonSerializer.Serialize(translation, options));
+
+            Console.WriteLine("Checking...");
+            if (translation.CheckAndWrite())
+            {
+                Console.WriteLine("Writing...");
+                File.WriteAllText(args[1], JsonSerializer.Serialize(translation, options));
+                Console.WriteLine("Finished.");
+            }
+
+            Console.WriteLine("======================");
         }
     }
 }
