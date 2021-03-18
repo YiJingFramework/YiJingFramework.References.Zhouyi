@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -17,75 +18,57 @@ namespace YiJingFramework.References.Zhouyi
     /// </summary>
     public sealed class Zhouyi
     {
-        internal Numbers NumberTranslations { get; }
-        internal Grams GramsTranslations { get; }
-        internal Patterns Patterns { get; }
-        internal Texts TextTranslations { get; }
+        private readonly TrigramsAndHexagrams trigramsAndHexagrams;
+        private readonly PatternsAndNumbers patternsAndNumbers;
 
-        /// <summary>
-        /// 创建新实例。
-        /// 默认使用的翻译目录为 <c>./zhouyi/translations</c> 。
-        /// Initialize a new instance.
-        /// The default translations directory is <c>./zhouyi/translations</c>.
-        /// </summary>
-        /// <exception cref="CannotReadTranslationException">
-        /// 读取翻译失败。
-        /// Cannot read the translations.
-        /// </exception>
-        public Zhouyi()
-            : this(new DirectoryInfo(Path.GetFullPath("zhouyi/translations", AppContext.BaseDirectory))) { }
-
-        /// <summary>
-        /// 创建新实例。
-        /// Initialize a new instance.
-        /// </summary>
-        /// <param name="translationsDirectory">
-        /// 翻译目录。
-        /// The translations directory.
-        /// </param>
-        /// <exception cref="CannotReadTranslationException">
-        /// 读取翻译失败。
-        /// Cannot read the translations.
-        /// </exception>
-        public Zhouyi(DirectoryInfo translationsDirectory)
-        {
-            if (!translationsDirectory.Exists)
-                throw new CannotReadTranslationException($"Cannot find directory: {translationsDirectory.FullName}");
-
-            JsonSerializerOptions baseOptions = new JsonSerializerOptions() {
+        private static readonly JsonSerializerOptions jsonSerializerOptions
+            = new JsonSerializerOptions() {
                 AllowTrailingCommas = true,
                 ReadCommentHandling = JsonCommentHandling.Skip
             };
-            {
-                FileInfo fileInfo = new FileInfo(
-                    Path.Join(translationsDirectory.FullName, "numbers.json"));
-                if (!fileInfo.Exists)
-                    throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
-                this.NumberTranslations = new Numbers(fileInfo, baseOptions);
-            }
-            {
-                FileInfo fileInfo = new FileInfo(
-                    Path.Join(translationsDirectory.FullName, "grams.json"));
-                if (!fileInfo.Exists)
-                    throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
-                this.GramsTranslations = new Grams(fileInfo, baseOptions);
-            }
-            {
-                FileInfo fileInfo = new FileInfo(
-                    Path.Join(translationsDirectory.FullName, "patterns.json"));
-                if (!fileInfo.Exists)
-                    throw new CannotReadTranslationException($"Cannot find file: {fileInfo.FullName}");
-                this.Patterns = new Patterns(fileInfo, baseOptions, this.NumberTranslations);
-            }
-            {
-                DirectoryInfo fileInfo = new DirectoryInfo(
-                    Path.Join(translationsDirectory.FullName, "texts"));
-                if (!fileInfo.Exists)
-                    throw new CannotReadTranslationException($"Cannot find directory: {fileInfo.FullName}");
-                this.TextTranslations = new Texts(fileInfo, baseOptions);
-            }
-        }
 
+        /// <summary>
+        /// 创建新实例。
+        /// Initialize a new instance.
+        /// </summary>
+        /// <param name="translationFilePath">
+        /// 翻译文件路径。
+        /// Path of the translation file.
+        /// </param>
+        /// <exception cref="CannotReadTranslationException">
+        /// 读取翻译失败。
+        /// Cannot read the translation.
+        /// </exception>
+        public Zhouyi(string translationFilePath = "./zhouyi/translation.json")
+        {
+            TranslationFile? translation;
+            try
+            {
+                using (var stream = new StreamReader(translationFilePath))
+                    translation = JsonSerializer.Deserialize<TranslationFile>(
+                        stream.ReadToEnd(), jsonSerializerOptions);
+            }
+            catch (IOException e)
+            {
+                throw new CannotReadTranslationException($"Cannot read translation file: {translationFilePath}", e);
+            }
+            catch (JsonException e)
+            {
+                throw new CannotReadTranslationException($"Invalid translation file: {translationFilePath}", e);
+            }
+            catch (ArgumentException e)
+            {
+                throw new CannotReadTranslationException($"Cannot read translation file: {translationFilePath}", e);
+            }
+
+            if (translation is null || !translation.Check())
+                throw new CannotReadTranslationException($"Invalid translation file: {translationFilePath}");
+
+            this.patternsAndNumbers = new PatternsAndNumbers(
+                translation.Patterns, translation.Numbers);
+            this.trigramsAndHexagrams = new TrigramsAndHexagrams(
+                translation.Hexagrams, translation.Trigrams);
+        }
 
         /// <summary>
         /// 通过卦画获取别卦。
@@ -113,8 +96,18 @@ namespace YiJingFramework.References.Zhouyi
                 throw new ArgumentException(
                     $"{nameof(painting)} should represent a hexagram.",
                     nameof(painting));
-
-            return new ZhouyiHexagram(this, painting);
+            var l = this.GetTrigram(new Core.Painting(painting[0], painting[1], painting[2]));
+            var u = this.GetTrigram(new Core.Painting(painting[3], painting[4], painting[5]));
+            var index = Maps.HexagramsToTrigrams.GetHexagram(l.Index, u.Index);
+            var t = trigramsAndHexagrams.GetHexagram(index);
+            return new ZhouyiHexagram(patternsAndNumbers,
+                index,
+                t.Name,
+                t.Text,
+                t.ApplyNinesOrSixes,
+                l,
+                u,
+                t.Lines);
         }
 
         /// <summary>
@@ -141,9 +134,19 @@ namespace YiJingFramework.References.Zhouyi
         {
             if (name is null)
                 throw new ArgumentNullException(nameof(name));
-            if (this.GramsTranslations.TryGetHexagramIndex(name, out var t))
+            var index = this.trigramsAndHexagrams.TryGetHexagram(name, out var t);
+            if (index != -1)
             {
-                result = new ZhouyiHexagram(this, t, name);
+                Debug.Assert(t is not null);
+                var tri = Maps.HexagramsToTrigrams.GetTrigrams(index);
+                result = new ZhouyiHexagram(patternsAndNumbers,
+                    index,
+                    t.Name,
+                    t.Text,
+                    t.ApplyNinesOrSixes,
+                    this.trigramsAndHexagrams.GetTrigram(tri.lower),
+                    this.trigramsAndHexagrams.GetTrigram(tri.upper),
+                    t.Lines);
                 return true;
             }
             result = null;
@@ -185,7 +188,7 @@ namespace YiJingFramework.References.Zhouyi
                 d = d << 1;
                 d += Convert.ToInt32(painting[i] == Core.LineAttribute.Yin);
             }
-            return this.GramsTranslations.GetTrigram(d + 1);
+            return this.trigramsAndHexagrams.GetTrigram(d + 1);
         }
 
         /// <summary>
@@ -212,7 +215,7 @@ namespace YiJingFramework.References.Zhouyi
         {
             if (name is null)
                 throw new ArgumentNullException(nameof(name));
-            return this.GramsTranslations.TryGetTrigramByName(name, out result);
+            return this.trigramsAndHexagrams.TryGetTrigramByName(name, out result);
         }
     }
 }

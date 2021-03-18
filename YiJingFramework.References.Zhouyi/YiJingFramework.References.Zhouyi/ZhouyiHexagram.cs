@@ -14,61 +14,31 @@ namespace YiJingFramework.References.Zhouyi
     /// </summary>
     public sealed partial class ZhouyiHexagram : IEquatable<ZhouyiHexagram>, IComparable<ZhouyiHexagram>
     {
-        private Patterns Patterns { get; }
-        internal ZhouyiHexagram(Zhouyi zhouyi, int index, string name)
+        internal ZhouyiHexagram(PatternsAndNumbers patterns,
+            int index, string name,
+            string text, string? applyNinesOrApplySixes, 
+            ZhouyiTrigram lowerTrigram, 
+            ZhouyiTrigram upperTrigram,
+            string[] lines)
         {
-            {
-                this.Index = index;
-                this.Patterns = zhouyi.Patterns;
-                this.Name = name;
-            }
-            {
-                var (upper, lower) = Maps.HexagramsToTrigrams.GetTrigrams(index);
-                this.UpperTrigram = zhouyi.GramsTranslations.GetTrigram(upper);
-                this.LowerTrigram = zhouyi.GramsTranslations.GetTrigram(lower);
-            }
-            var texts = zhouyi.TextTranslations.Get(index);
-            this.Text = texts.Text;
-            this.ApplyNinesOrApplySixes = zhouyi.TextTranslations.GetApplyNinesOrSixes(index);
-            {
-                var low = this.LowerTrigram.GetPainting();
-                this.FirstLine = new Line(this, 1, low[0], texts.Lines[0]);
-                this.SecondLine = new Line(this, 2, low[1], texts.Lines[1]);
-                this.ThirdLine = new Line(this, 3, low[2], texts.Lines[2]);
-            }
-            {
-                var up = this.UpperTrigram.GetPainting();
-                this.FourthLine = new Line(this, 4, up[0], texts.Lines[3]);
-                this.FifthLine = new Line(this, 5, up[1], texts.Lines[4]);
-                this.SixthLine = new Line(this, 6, up[2], texts.Lines[5]);
-            }
+            this.Patterns = patterns;
+            this.Text = text;
+            this.ApplyNinesOrApplySixes = applyNinesOrApplySixes;
+            this.Index = index;
+            this.Name = name;
+            var trigram = lowerTrigram.GetPainting();
+            this.FirstLine = new Line(this, 1, trigram[0], lines[0]);
+            this.SecondLine = new Line(this, 2, trigram[1], lines[1]);
+            this.ThirdLine = new Line(this, 3, trigram[2], lines[2]);
+            trigram = upperTrigram.GetPainting();
+            this.FourthLine = new Line(this, 4, trigram[0], lines[3]);
+            this.FifthLine = new Line(this, 5, trigram[1], lines[4]);
+            this.SixthLine = new Line(this, 6, trigram[2], lines[5]);
+            this.LowerTrigram = lowerTrigram;
+            this.UpperTrigram = upperTrigram;
         }
-        internal ZhouyiHexagram(Zhouyi zhouyi, Painting painting)
-        {
-            {
-                this.LowerTrigram = zhouyi.GetTrigram(
-                    new Painting(painting[0], painting[1], painting[2]));
-                this.UpperTrigram = zhouyi.GetTrigram(
-                    new Painting(painting[3], painting[4], painting[5]));
-            }
-            {
-                this.Index = Maps.HexagramsToTrigrams.GetHexagram(
-                    this.LowerTrigram.Index, this.UpperTrigram.Index);
-                this.Patterns = zhouyi.Patterns;
-                this.Name = zhouyi.GramsTranslations.GetHexagramName(this.Index);
-            }
-            var texts = zhouyi.TextTranslations.Get(this.Index);
-            this.Text = texts.Text;
-            this.ApplyNinesOrApplySixes = zhouyi.TextTranslations.GetApplyNinesOrSixes(this.Index);
-            {
-                this.FirstLine = new Line(this, 1, painting[0], texts.Lines[0]);
-                this.SecondLine = new Line(this, 2, painting[1], texts.Lines[1]);
-                this.ThirdLine = new Line(this, 3, painting[2], texts.Lines[2]);
-                this.FourthLine = new Line(this, 4, painting[3], texts.Lines[3]);
-                this.FifthLine = new Line(this, 5, painting[4], texts.Lines[4]);
-                this.SixthLine = new Line(this, 6, painting[5], texts.Lines[5]);
-            }
-        }
+
+        private PatternsAndNumbers Patterns { get; }
 
         /// <summary>
         /// 卦辞。
@@ -227,7 +197,7 @@ namespace YiJingFramework.References.Zhouyi
         {
             return this.Index.CompareTo(other?.Index);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
