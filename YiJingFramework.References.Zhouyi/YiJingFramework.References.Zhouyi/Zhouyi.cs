@@ -39,7 +39,7 @@ namespace YiJingFramework.References.Zhouyi
         /// 读取翻译失败。
         /// Cannot read the translation.
         /// </exception>
-        public Zhouyi(string translationFilePath = "./zhouyi/translation.json")
+        public Zhouyi(string translationFilePath = "zhouyi/translation.json")
         {
             TranslationFile? translation;
             try
@@ -63,6 +63,45 @@ namespace YiJingFramework.References.Zhouyi
 
             if (translation is null || !translation.Check())
                 throw new CannotReadTranslationException($"Invalid translation file: {translationFilePath}");
+
+            this.patternsAndNumbers = new PatternsAndNumbers(
+                translation.Patterns, translation.Numbers);
+            this.trigramsAndHexagrams = new TrigramsAndHexagrams(
+                translation.Hexagrams, translation.Trigrams);
+        }
+
+        /// <summary>
+        /// 创建新实例。
+        /// Initialize a new instance.
+        /// </summary>
+        /// <param name="translationStream">
+        /// 翻译流。
+        /// The stream of the translation.
+        /// </param>
+        /// <param name="leaveOpen">
+        /// 是否在读取后保存流开启。
+        /// Whether to keep the stream open after reading.
+        /// </param>
+        /// <exception cref="CannotReadTranslationException">
+        /// 读取翻译失败。
+        /// Cannot read the translation.
+        /// </exception>
+        public Zhouyi(Stream translationStream, bool leaveOpen = false)
+        {
+            TranslationFile? translation;
+            try
+            {
+                using (var stream = new StreamReader(translationStream, null, true, -1, leaveOpen))
+                    translation = JsonSerializer.Deserialize<TranslationFile>(
+                        stream.ReadToEnd(), jsonSerializerOptions);
+            }
+            catch (JsonException e)
+            {
+                throw new CannotReadTranslationException($"Invalid translation.", e);
+            }
+
+            if (translation is null || !translation.Check())
+                throw new CannotReadTranslationException($"Invalid translation.");
 
             this.patternsAndNumbers = new PatternsAndNumbers(
                 translation.Patterns, translation.Numbers);
@@ -99,8 +138,8 @@ namespace YiJingFramework.References.Zhouyi
             var l = this.GetTrigram(new Core.Painting(painting[0], painting[1], painting[2]));
             var u = this.GetTrigram(new Core.Painting(painting[3], painting[4], painting[5]));
             var index = Maps.HexagramsToTrigrams.GetHexagram(l.Index, u.Index);
-            var t = trigramsAndHexagrams.GetHexagram(index);
-            return new ZhouyiHexagram(patternsAndNumbers,
+            var t = this.trigramsAndHexagrams.GetHexagram(index);
+            return new ZhouyiHexagram(this.patternsAndNumbers,
                 index,
                 t.Name,
                 t.Text,
@@ -139,7 +178,7 @@ namespace YiJingFramework.References.Zhouyi
             {
                 Debug.Assert(t is not null);
                 var tri = Maps.HexagramsToTrigrams.GetTrigrams(index);
-                result = new ZhouyiHexagram(patternsAndNumbers,
+                result = new ZhouyiHexagram(this.patternsAndNumbers,
                     index,
                     t.Name,
                     t.Text,

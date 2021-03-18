@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,12 @@ namespace YiJingFramework.References.Zhouyi.Tests
     public class ZhouyiTests
     {
         [TestMethod()]
-        public void ZhouyiJingSectionTest()
+        public void ZhouyiTest()
         {
             _ = new Zhouyi();
+            _ = new Zhouyi("abc.json");
+            using var fileStream = new FileStream("abc.json", FileMode.Open);
+            _ = new Zhouyi(fileStream);
         }
 
         private readonly Zhouyi yijing = new Zhouyi();

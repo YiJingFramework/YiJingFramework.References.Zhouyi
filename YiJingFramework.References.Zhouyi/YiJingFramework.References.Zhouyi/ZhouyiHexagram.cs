@@ -16,8 +16,8 @@ namespace YiJingFramework.References.Zhouyi
     {
         internal ZhouyiHexagram(PatternsAndNumbers patterns,
             int index, string name,
-            string text, string? applyNinesOrApplySixes, 
-            ZhouyiTrigram lowerTrigram, 
+            string text, string? applyNinesOrApplySixes,
+            ZhouyiTrigram lowerTrigram,
             ZhouyiTrigram upperTrigram,
             string[] lines)
         {

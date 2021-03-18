@@ -14,7 +14,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
     {
         internal sealed record ZhouyiHexagramValues(
             string Name, string Text,
-            int Index,string[] Lines,
+            int Index, string[] Lines,
             string? ApplyNinesOrSixes);
 
         private readonly ZhouyiHexagramValues[] hexagrams;
@@ -38,7 +38,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
             trigram = null;
             return false;
         }
-        
+
         /// <exception cref="IndexOutOfRangeException"></exception>
         internal ZhouyiHexagramValues GetHexagram(int index)
         {
