@@ -14,33 +14,33 @@ namespace Examples
             using var stream = new MemoryStream(Properties.Resources.translation);
             Zhouyi zhouyi = new Zhouyi(stream);
 
-            _ = zhouyi.TryGetHexagram("比", out var bi);
-            Debug.Assert(bi is not null);
-            Console.WriteLine(bi);
-            Console.WriteLine(bi.SecondLine.LineAttribute);
-            Console.WriteLine(bi.UpperTrigram.Nature);
+            _ = zhouyi.TryGetHexagram("同人", out var tongRen);
+            Debug.Assert(tongRen is not null);
+            Console.WriteLine(tongRen);
+            Console.WriteLine(tongRen.SecondLine.LineAttribute);
+            Console.WriteLine(tongRen.UpperTrigram.Nature);
             Console.WriteLine();
-            // Outputs: 第八卦 比 水地比 坎上坤下
-            // 吉。原筮元永贞，无咎。不宁方来，后夫凶。
-            // 初六：有孚比之，无咎。有孚盈缶，终来有他，吉。
-            // 六二：比之自内，贞吉。
-            // 六三：比之匪人。
-            // 六四：外比之，贞吉。
-            // 九五：显比，王用三驱，失前禽。邑人不诫，吉。
-            // 上六：比之无首，凶。
+            // Outputs: 第十三卦 同人 天火同人 乾上离下
+            // 同人于野，亨。利涉大川，利君子贞。
+            // 初九：同人于门，无咎。
+            // 六二：同人于宗，吝。
+            // 九三：伏戎于莽，升其高陵，三岁不兴。
+            // 九四：乘其墉，弗克攻，吉。
+            // 九五：同人，先号啕而后笑。大师克相遇。
+            // 上九：同人于郊，无悔。
             // 
             // Yin
-            // 水
+            // 天
 
-            var bi2 = zhouyi.GetHexagram(new YiJingFramework.Core.Painting(
-                YiJingFramework.Core.LineAttribute.Yin,
-                YiJingFramework.Core.LineAttribute.Yin,
-                YiJingFramework.Core.LineAttribute.Yin,
-                YiJingFramework.Core.LineAttribute.Yin,
+            var tongRen2 = zhouyi.GetHexagram(new YiJingFramework.Core.Painting(
                 YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yin
+                YiJingFramework.Core.LineAttribute.Yang,
+                YiJingFramework.Core.LineAttribute.Yang,
+                YiJingFramework.Core.LineAttribute.Yang,
+                YiJingFramework.Core.LineAttribute.Yin,
+                YiJingFramework.Core.LineAttribute.Yang
                 ));
-            Console.WriteLine(bi.Equals(bi2));
+            Console.WriteLine(tongRen.Equals(tongRen2));
             Console.WriteLine();
             // Output: True
         }
