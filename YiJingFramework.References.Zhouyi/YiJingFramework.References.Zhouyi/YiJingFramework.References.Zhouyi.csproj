@@ -37,10 +37,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="zhouyi\translation.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
