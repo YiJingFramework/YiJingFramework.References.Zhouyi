@@ -1,4 +1,8 @@
-﻿{
+﻿// The translation is mainly downloaded from:
+// http://www.ziyexing.com/files-5/zhouyi/zhouyi_index.htm
+// Current Package Version: 2.0.1.
+
+{
   // The translations for trigrams.
   "Trigrams": {
     // Name of the 8 trigrams.

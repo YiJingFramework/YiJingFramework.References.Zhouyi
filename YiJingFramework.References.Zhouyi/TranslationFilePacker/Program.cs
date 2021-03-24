@@ -11,10 +11,9 @@ namespace TranslationFilePacker
         static void Main(string[] args)
         {
             Console.WriteLine("======================");
-            Console.WriteLine("Translation File Packer For YiJingFramework.References.Zhouyi.");
+            Console.WriteLine("Translation File Packer For YiJingFramework.References.Zhouyi 2.0.1.");
             if (args.Length != 2)
             {
-                Console.WriteLine("Package version: 2.0.0.");
                 Console.WriteLine("Format: <InputFile> <OutputFile>");
                 Console.WriteLine("======================");
                 return;
