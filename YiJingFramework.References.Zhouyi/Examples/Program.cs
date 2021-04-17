@@ -34,10 +34,10 @@ namespace Examples
 
             var tongRen2 = zhouyi.GetHexagram(new YiJingFramework.Core.Painting(
                 YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yang,
                 YiJingFramework.Core.LineAttribute.Yin,
+                YiJingFramework.Core.LineAttribute.Yang,
+                YiJingFramework.Core.LineAttribute.Yang,
+                YiJingFramework.Core.LineAttribute.Yang,
                 YiJingFramework.Core.LineAttribute.Yang
                 ));
             Console.WriteLine(tongRen.Equals(tongRen2));
