@@ -12,7 +12,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
     [TestClass()]
     public class ZhouyiHexagramTests
     {
-        private readonly Zhouyi yijing = new Zhouyi();
+        private readonly Zhouyi yijing = new Zhouyi("zhouyi/translation.json");
 
         public ZhouyiHexagramTests()
         {
@@ -69,7 +69,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
             Assert.IsFalse(this.qian.Equals(this.weiJi));
             Assert.IsFalse(this.qian.Equals(null));
             Assert.IsFalse(this.qian.Equals(new object()));
-            Assert.IsTrue(this.shi.Equals(new Zhouyi().GetHexagram(new Core.Painting(
+            Assert.IsTrue(this.shi.Equals(new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
                 Core.LineAttribute.Yin,
                 Core.LineAttribute.Yang,
                 Core.LineAttribute.Yin,
@@ -77,7 +77,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
                 Core.LineAttribute.Yin,
                 Core.LineAttribute.Yin
             ))));
-            Assert.IsTrue(this.shi.Equals((object)new Zhouyi().GetHexagram(new Core.Painting(
+            Assert.IsTrue(this.shi.Equals((object)new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
                 Core.LineAttribute.Yin,
                 Core.LineAttribute.Yang,
                 Core.LineAttribute.Yin,
@@ -86,7 +86,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
                 Core.LineAttribute.Yin
             ))));
             Assert.IsTrue(this.qian.Equals((object)this.qian));
-            Assert.IsTrue(this.qian == new Zhouyi().GetHexagram(new Core.Painting(
+            Assert.IsTrue(this.qian == new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
                 Core.LineAttribute.Yang,
                 Core.LineAttribute.Yang,
                 Core.LineAttribute.Yang,

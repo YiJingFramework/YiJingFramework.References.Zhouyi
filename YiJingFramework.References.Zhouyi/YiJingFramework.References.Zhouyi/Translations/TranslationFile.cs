@@ -14,6 +14,12 @@ namespace YiJingFramework.References.Zhouyi.Translations
         TranslationFilePatterns Patterns,
         TranslationFileHexagrams Hexagrams)
     {
+        public static TranslationFile Empty =>
+            new TranslationFile(
+                TranslationFileTrigrams.Empty,
+                TranslationFileNumbers.Empty,
+                TranslationFilePatterns.Empty,
+                TranslationFileHexagrams.Empty);
         internal bool Check()
         {
             return this.Trigrams.Check() &&
@@ -35,6 +41,17 @@ namespace YiJingFramework.References.Zhouyi.Translations
         }
         internal sealed record TranslationFileTrigrams(string[] Names, string[] Natures)
         {
+            public static TranslationFileTrigrams Empty
+            {
+                get
+                {
+                    var eightEmptyStrings = new string[] {
+                        string.Empty, string.Empty, string.Empty, string.Empty,
+                        string.Empty, string.Empty, string.Empty, string.Empty
+                    };
+                    return new TranslationFileTrigrams(eightEmptyStrings, eightEmptyStrings);
+                }
+            }
             internal bool Check()
             {
                 return CheckLengthAndNullValue(this.Names, 8) && CheckLengthAndNullValue(this.Natures, 8);
@@ -42,6 +59,15 @@ namespace YiJingFramework.References.Zhouyi.Translations
         }
         internal sealed record TranslationFileNumbers(string[] Ordinal)
         {
+            public static TranslationFileNumbers Empty
+            {
+                get
+                {
+                    var sixtyFourEmptyStrings = new string[64];
+                    Array.Fill(sixtyFourEmptyStrings, string.Empty);
+                    return new TranslationFileNumbers(sixtyFourEmptyStrings);
+                }
+            }
             internal bool Check()
             {
                 return CheckLongerAndNullValue(this.Ordinal, 64);
@@ -55,6 +81,18 @@ namespace YiJingFramework.References.Zhouyi.Translations
             string ApplyNines,
             string ApplySixes)
         {
+            public static TranslationFilePatterns Empty
+            {
+                get
+                {
+                    var sixEmptyStrings = new string[] {
+                        string.Empty, string.Empty, string.Empty,
+                        string.Empty, string.Empty, string.Empty
+                    };
+                    return new TranslationFilePatterns(sixEmptyStrings, sixEmptyStrings,
+                        string.Empty, string.Empty, string.Empty, string.Empty);
+                }
+            }
             internal bool Check()
             {
                 return this.HexagramsToString is not null &&
@@ -69,11 +107,32 @@ namespace YiJingFramework.References.Zhouyi.Translations
             string ApplyNines,
             string ApplySixes)
         {
+            public static TranslationFileHexagrams Empty
+            {
+                get
+                {
+                    var sixtyFourEmptyNamesAndTexts = new TranslationFileHexagramNameAndTexts[64];
+                    Array.Fill(sixtyFourEmptyNamesAndTexts, TranslationFileHexagramNameAndTexts.Empty);
+                    return new TranslationFileHexagrams(
+                        sixtyFourEmptyNamesAndTexts, string.Empty, string.Empty);
+                }
+            }
             internal sealed record TranslationFileHexagramNameAndTexts(
                 string[] Lines,
                 string Name,
                 string Text)
             {
+                public static TranslationFileHexagramNameAndTexts Empty
+                {
+                    get
+                    {
+                        return new TranslationFileHexagramNameAndTexts(
+                            new string[] {
+                                string.Empty, string.Empty, string.Empty,
+                                string.Empty, string.Empty, string.Empty
+                            }, string.Empty, string.Empty);
+                    }
+                }
                 internal bool Check()
                 {
                     return this.Name is not null &&

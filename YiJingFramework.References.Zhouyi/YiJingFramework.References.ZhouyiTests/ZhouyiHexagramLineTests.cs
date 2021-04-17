@@ -10,7 +10,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
     [TestClass()]
     public class ZhouyiHexagramLineTests
     {
-        private readonly Zhouyi yijing = new Zhouyi();
+        private readonly Zhouyi yijing = new Zhouyi("zhouyi/translation.json");
 
         public ZhouyiHexagramLineTests()
         {
@@ -87,7 +87,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
                 Core.LineAttribute.Yin,
                 Core.LineAttribute.Yin
             )).GetLine(1)));
-            Assert.IsTrue(this.shi.GetLine(1).Equals((object)new Zhouyi().GetHexagram(new Core.Painting(
+            Assert.IsTrue(this.shi.GetLine(1).Equals((object)new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
                 Core.LineAttribute.Yin,
                 Core.LineAttribute.Yang,
                 Core.LineAttribute.Yin,

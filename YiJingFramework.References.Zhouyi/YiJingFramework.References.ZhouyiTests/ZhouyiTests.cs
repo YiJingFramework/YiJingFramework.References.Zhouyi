@@ -15,13 +15,14 @@ namespace YiJingFramework.References.Zhouyi.Tests
         [TestMethod()]
         public void ZhouyiTest()
         {
-            _ = new Zhouyi();
+            _ = new Zhouyi("zhouyi/translation.json");
             _ = new Zhouyi("abc.json");
             using var fileStream = new FileStream("abc.json", FileMode.Open);
             _ = new Zhouyi(fileStream);
+            _ = new Zhouyi();
         }
 
-        private readonly Zhouyi yijing = new Zhouyi();
+        private readonly Zhouyi yijing = new Zhouyi("zhouyi/translation.json");
         [TestMethod()]
         public void GetHexagramTest()
         {
@@ -33,6 +34,10 @@ namespace YiJingFramework.References.Zhouyi.Tests
                  Core.LineAttribute.Yang, Core.LineAttribute.Yin, Core.LineAttribute.Yang,
                  Core.LineAttribute.Yang, Core.LineAttribute.Yang, Core.LineAttribute.Yang));
             Assert.AreEqual("同人", hex.Name);
+            hex = this.yijing.GetHexagram(1);
+            Assert.AreEqual("乾", hex.Name);
+            hex = this.yijing.GetHexagram(64);
+            Assert.AreEqual("未济", hex.Name);
         }
 
         [TestMethod()]
