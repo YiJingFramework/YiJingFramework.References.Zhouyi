@@ -14,7 +14,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
         TranslationFilePatterns Patterns,
         TranslationFileHexagrams Hexagrams)
     {
-        public static TranslationFile Empty =>
+        internal static TranslationFile Empty =>
             new TranslationFile(
                 TranslationFileTrigrams.Empty,
                 TranslationFileNumbers.Empty,
@@ -41,7 +41,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
         }
         internal sealed record TranslationFileTrigrams(string[] Names, string[] Natures)
         {
-            public static TranslationFileTrigrams Empty
+            internal static TranslationFileTrigrams Empty
             {
                 get
                 {
@@ -59,7 +59,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
         }
         internal sealed record TranslationFileNumbers(string[] Ordinal)
         {
-            public static TranslationFileNumbers Empty
+            internal static TranslationFileNumbers Empty
             {
                 get
                 {
@@ -81,7 +81,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
             string ApplyNines,
             string ApplySixes)
         {
-            public static TranslationFilePatterns Empty
+            internal static TranslationFilePatterns Empty
             {
                 get
                 {
@@ -107,7 +107,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
             string ApplyNines,
             string ApplySixes)
         {
-            public static TranslationFileHexagrams Empty
+            internal static TranslationFileHexagrams Empty
             {
                 get
                 {
@@ -122,7 +122,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
                 string Name,
                 string Text)
             {
-                public static TranslationFileHexagramNameAndTexts Empty
+                internal static TranslationFileHexagramNameAndTexts Empty
                 {
                     get
                     {
