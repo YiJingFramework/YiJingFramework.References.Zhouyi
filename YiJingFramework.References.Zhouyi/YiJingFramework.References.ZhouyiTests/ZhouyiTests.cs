@@ -16,8 +16,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void ZhouyiTest()
         {
             _ = new Zhouyi("zhouyi/translation.json");
-            _ = new Zhouyi("abc.json");
-            using var fileStream = new FileStream("abc.json", FileMode.Open);
+            using var fileStream = new FileStream("zhouyi/translation.json", FileMode.Open);
             _ = new Zhouyi(fileStream);
             _ = new Zhouyi();
         }
@@ -44,7 +43,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void TryGetHexagramTest()
         {
             Assert.IsTrue(this.yijing.TryGetHexagram("同人", out var r));
-            Assert.AreEqual("同人于野，亨。利涉大川，利君子贞。", r.Text);
+            Assert.AreEqual("同人于野，亨。利涉大川。利君子贞。", r.Text);
         }
 
         [TestMethod()]

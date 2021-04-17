@@ -56,20 +56,20 @@ namespace YiJingFramework.References.Zhouyi.Tests
             )), line.From);
             Assert.AreEqual(Core.LineAttribute.Yin, line.LineAttribute);
             Assert.AreEqual(5, line.LineIndex);
-            Assert.AreEqual("贞吉，无悔，君子之光，有孚，吉。", line.LineText);
+            Assert.AreEqual("贞吉，无悔。君子之光，有孚吉。", line.LineText);
 
             Assert.AreEqual("师出以律，否臧凶。", this.shi.FirstLine.LineText);
-            Assert.AreEqual("在师中，吉无咎，王三锡命。", this.shi.SecondLine.LineText);
+            Assert.AreEqual("在师中吉，无咎，王三锡命。", this.shi.SecondLine.LineText);
             Assert.AreEqual("师或舆尸，凶。", this.shi.ThirdLine.LineText);
             Assert.AreEqual("师左次，无咎。", this.shi.FourthLine.LineText);
-            Assert.AreEqual("田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶。", this.shi.FifthLine.LineText);
+            Assert.AreEqual("田有禽。利执言，无咎。长子帅师，弟子舆尸，贞凶。", this.shi.FifthLine.LineText);
             Assert.AreEqual("大君有命，开国承家，小人勿用。", this.shi.SixthLine.LineText);
         }
 
         [TestMethod()]
         public void ToStringTest()
         {
-            Assert.AreEqual("六五：田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶。",
+            Assert.AreEqual("六五：田有禽。利执言，无咎。长子帅师，弟子舆尸，贞凶。",
                 this.shi.FifthLine.ToString());
         }
 

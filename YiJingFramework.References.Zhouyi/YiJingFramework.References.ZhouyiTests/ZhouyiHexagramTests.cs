@@ -124,22 +124,22 @@ namespace YiJingFramework.References.Zhouyi.Tests
                 $"乾上乾下{Environment.NewLine}" +
                 $"元，亨，利，贞。{Environment.NewLine}" +
                 $"初九：潜龙，勿用。{Environment.NewLine}" +
-                $"九二：见龙再田，利见大人。{Environment.NewLine}" +
-                $"九三：君子终日乾乾，夕惕若，厉无咎。{Environment.NewLine}" +
+                $"九二：见龙在田，利见大人。{Environment.NewLine}" +
+                $"九三：君子终日乾乾，夕惕若。厉无咎。{Environment.NewLine}" +
                 $"九四：或跃在渊，无咎。{Environment.NewLine}" +
                 $"九五：飞龙在天，利见大人。{Environment.NewLine}" +
-                $"上九：亢龙有悔。{Environment.NewLine}" +
+                $"上九：亢龙，有悔。{Environment.NewLine}" +
                 $"用九：见群龙无首，吉。{Environment.NewLine}", this.qian.ToString());
             Assert.AreEqual($"第六十四卦 " +
                 $"未济 火水未济 " +
                 $"离上坎下{Environment.NewLine}" +
-                $"亨，小狐汔济，濡其尾，无攸利。{Environment.NewLine}" +
+                $"亨。小狐汔济，濡其尾，无攸利。{Environment.NewLine}" +
                 $"初六：濡其尾，吝。{Environment.NewLine}" +
                 $"九二：曳其轮，贞吉。{Environment.NewLine}" +
-                $"六三：未济，征凶，利涉大川。{Environment.NewLine}" +
-                $"九四：贞吉，悔亡，震用伐鬼方，三年有赏于大国。{Environment.NewLine}" +
-                $"六五：贞吉，无悔，君子之光，有孚，吉。{Environment.NewLine}" +
-                $"上九：有孚于饮酒，无咎，濡其首，有孚失是。{Environment.NewLine}"
+                $"六三：未济，征凶。利涉大川。{Environment.NewLine}" +
+                $"九四：贞吉，悔亡，震用伐鬼方，三年，有赏于大国。{Environment.NewLine}" +
+                $"六五：贞吉，无悔。君子之光，有孚吉。{Environment.NewLine}" +
+                $"上九：有孚于饮酒，无咎。濡其首，有孚失是。{Environment.NewLine}"
                 , this.weiJi.ToString());
         }
     }
