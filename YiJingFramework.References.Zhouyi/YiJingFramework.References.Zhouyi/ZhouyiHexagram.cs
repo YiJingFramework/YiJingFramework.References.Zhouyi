@@ -23,7 +23,6 @@ namespace YiJingFramework.References.Zhouyi
         {
             this.Patterns = patterns;
             this.Text = text;
-            this.ApplyNinesOrApplySixes = applyNinesOrApplySixes;
             this.Index = index;
             this.Name = name;
             var trigram = lowerTrigram.GetPainting();
@@ -36,6 +35,9 @@ namespace YiJingFramework.References.Zhouyi
             this.SixthLine = new Line(this, 6, trigram[2], lines[5]);
             this.LowerTrigram = lowerTrigram;
             this.UpperTrigram = upperTrigram;
+
+            if (applyNinesOrApplySixes is not null)
+                this.ApplyNinesOrApplySixes = new Line(this, 0, trigram[0], applyNinesOrApplySixes);
         }
 
         private PatternsAndNumbers Patterns { get; }
@@ -50,7 +52,7 @@ namespace YiJingFramework.References.Zhouyi
         /// 用九或用六。
         /// Apply nines or apply sixes.
         /// </summary>
-        public string? ApplyNinesOrApplySixes { get; }
+        public Line? ApplyNinesOrApplySixes { get; }
 
         /// <summary>
         /// 一个从 1 开始的序号，反映其在《周易》中的位置。

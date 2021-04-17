@@ -30,7 +30,9 @@ namespace YiJingFramework.References.Zhouyi
 
             /// <summary>
             /// 从 1 开始的序号。
+            /// 为 0 表示用辞。
             /// 1-based index of the line.
+            /// If its value is 0, this line represents the apply nines or apply sixes.
             /// </summary>
             public int LineIndex { get; }
 

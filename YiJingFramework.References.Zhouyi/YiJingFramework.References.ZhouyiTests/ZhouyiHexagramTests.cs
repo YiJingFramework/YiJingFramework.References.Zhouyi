@@ -42,10 +42,10 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void PropertiesTest()
         {
             Assert.IsNull(this.shi.ApplyNinesOrApplySixes);
-            Assert.AreEqual($"见群龙无首，吉。", this.qian.ApplyNinesOrApplySixes);
+            Assert.AreEqual($"见群龙无首，吉。", this.qian.ApplyNinesOrApplySixes.LineText);
             Assert.AreEqual("利永贞。",
                 this.yijing.GetHexagram(this.qian.GetPainting().ToLaterallyLinked())
-                .ApplyNinesOrApplySixes);
+                .ApplyNinesOrApplySixes.LineText);
             Assert.AreEqual(64, this.weiJi.Index);
             Assert.IsTrue(this.yijing.TryGetTrigram("坎", out var kan));
             Assert.AreEqual(kan, this.weiJi.LowerTrigram);

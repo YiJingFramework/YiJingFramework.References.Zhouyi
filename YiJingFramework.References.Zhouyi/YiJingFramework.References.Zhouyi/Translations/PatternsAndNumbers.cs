@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,13 +37,10 @@ namespace YiJingFramework.References.Zhouyi.Translations
                 yield return this.ApplyPattern(hexagram.FifthLine);
                 yield return this.ApplyPattern(hexagram.SixthLine);
 
-                yield return hexagram.Index switch {
-                    1 => string.Format(this.patterns.ApplyNines
-                    , Environment.NewLine, hexagram.ApplyNinesOrApplySixes),
-                    2 => string.Format(this.patterns.ApplySixes
-                    , Environment.NewLine, hexagram.ApplyNinesOrApplySixes),
-                    _ => string.Empty
-                };
+                if (hexagram.ApplyNinesOrApplySixes is not null)
+                    yield return this.ApplyPattern(hexagram.ApplyNinesOrApplySixes);
+                else
+                    yield return string.Empty;
             }
 
             return string.Format(
@@ -52,6 +50,12 @@ namespace YiJingFramework.References.Zhouyi.Translations
         }
         public string ApplyPattern(ZhouyiHexagram.Line line)
         {
+            if (line.LineIndex == 0)
+            {
+                return string.Format(line.LineAttribute == Core.LineAttribute.Yang ?
+                    this.patterns.ApplyNines : this.patterns.ApplySixes,
+                    Environment.NewLine, line.LineText);
+            }
             var pattern = line.LineAttribute switch {
                 Core.LineAttribute.Yang => this.patterns.YangLines,
                 _ => this.patterns.YinLines
