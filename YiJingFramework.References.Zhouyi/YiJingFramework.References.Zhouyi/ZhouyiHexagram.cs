@@ -142,14 +142,14 @@ namespace YiJingFramework.References.Zhouyi
         /// </summary>
         public ZhouyiTrigram UpperTrigram { get; }
 
-        private IEnumerable<Core.LineAttribute> GetAttributes()
+        private IEnumerable<Core.YinYang> GetAttributes()
         {
-            yield return this.FirstLine.LineAttribute;
-            yield return this.SecondLine.LineAttribute;
-            yield return this.ThirdLine.LineAttribute;
-            yield return this.FourthLine.LineAttribute;
-            yield return this.FifthLine.LineAttribute;
-            yield return this.SixthLine.LineAttribute;
+            yield return this.FirstLine.YinYang;
+            yield return this.SecondLine.YinYang;
+            yield return this.ThirdLine.YinYang;
+            yield return this.FourthLine.YinYang;
+            yield return this.FifthLine.YinYang;
+            yield return this.SixthLine.YinYang;
         }
 
         /// <summary>

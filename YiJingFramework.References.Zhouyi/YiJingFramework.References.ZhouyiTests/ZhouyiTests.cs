@@ -26,12 +26,12 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void GetHexagramTest()
         {
             var hex = this.yijing.GetHexagram(new Core.Painting(
-                 Core.LineAttribute.Yang, Core.LineAttribute.Yang, Core.LineAttribute.Yin,
-                 Core.LineAttribute.Yang, Core.LineAttribute.Yang, Core.LineAttribute.Yin));
+                 Core.YinYang.Yang, Core.YinYang.Yang, Core.YinYang.Yin,
+                 Core.YinYang.Yang, Core.YinYang.Yang, Core.YinYang.Yin));
             Assert.AreEqual("兑", hex.Name);
             hex = this.yijing.GetHexagram(new Core.Painting(
-                 Core.LineAttribute.Yang, Core.LineAttribute.Yin, Core.LineAttribute.Yang,
-                 Core.LineAttribute.Yang, Core.LineAttribute.Yang, Core.LineAttribute.Yang));
+                 Core.YinYang.Yang, Core.YinYang.Yin, Core.YinYang.Yang,
+                 Core.YinYang.Yang, Core.YinYang.Yang, Core.YinYang.Yang));
             Assert.AreEqual("同人", hex.Name);
             hex = this.yijing.GetHexagram(1);
             Assert.AreEqual("乾", hex.Name);
@@ -50,7 +50,7 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void GetTrigramTest()
         {
             var tri = this.yijing.GetTrigram(new Core.Painting(
-                 Core.LineAttribute.Yin, Core.LineAttribute.Yin, Core.LineAttribute.Yin));
+                 Core.YinYang.Yin, Core.YinYang.Yin, Core.YinYang.Yin));
             Assert.AreEqual("坤", tri.Name);
         }
 

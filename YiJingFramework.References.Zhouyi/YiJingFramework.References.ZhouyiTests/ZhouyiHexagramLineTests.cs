@@ -15,20 +15,20 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public ZhouyiHexagramLineTests()
         {
             this.qian = this.yijing.GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             ));
             this.weiJi = this.yijing.GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             ));
             _ = this.yijing.TryGetHexagram("师", out this.shi);
         }
@@ -41,20 +41,20 @@ namespace YiJingFramework.References.Zhouyi.Tests
         {
             var line = this.qian.GetLine(1);
             Assert.AreEqual(this.qian, line.From);
-            Assert.AreEqual(Core.LineAttribute.Yang, line.LineAttribute);
+            Assert.AreEqual(Core.YinYang.Yang, line.YinYang);
             Assert.AreEqual(1, line.LineIndex);
             Assert.AreEqual("潜龙，勿用。", line.LineText);
 
             line = this.weiJi.FifthLine;
             Assert.AreEqual(this.yijing.GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             )), line.From);
-            Assert.AreEqual(Core.LineAttribute.Yin, line.LineAttribute);
+            Assert.AreEqual(Core.YinYang.Yin, line.YinYang);
             Assert.AreEqual(5, line.LineIndex);
             Assert.AreEqual("贞吉，无悔。君子之光，有孚吉。", line.LineText);
 
@@ -80,29 +80,29 @@ namespace YiJingFramework.References.Zhouyi.Tests
             Assert.IsFalse(this.qian.GetLine(1).Equals(null));
             Assert.IsFalse(this.qian.GetLine(1).Equals(new object()));
             Assert.IsTrue(this.shi.GetLine(1).Equals(new Zhouyi().GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin
             )).GetLine(1)));
             Assert.IsTrue(this.shi.GetLine(1).Equals((object)new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin
             )).GetLine(1)));
             Assert.IsTrue(this.qian.GetLine(2).Equals((object)this.qian.GetLine(2)));
             Assert.IsTrue(this.qian.GetLine(1) == new Zhouyi().GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             )).GetLine(1));
             Assert.IsFalse(this.qian.GetLine(2) == this.shi.GetLine(2));
             Assert.IsTrue(this.qian.GetLine(2) != this.shi.GetLine(2));
@@ -117,19 +117,19 @@ namespace YiJingFramework.References.Zhouyi.Tests
             for (int i = 0; i < 1000000;)
             {
                 Core.Painting painting1 = new Core.Painting(
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2));
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2));
                 Core.Painting painting2 = new Core.Painting(
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2),
-                    (Core.LineAttribute)r.Next(0, 2));
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2),
+                    (Core.YinYang)r.Next(0, 2));
                 if (r.Next(0, 2) == 0)
                 {
                     var line1 = this.yijing.GetHexagram(painting1).GetLine(r.Next(1, 7));

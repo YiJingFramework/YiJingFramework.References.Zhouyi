@@ -51,9 +51,9 @@ namespace YiJingFramework.References.Zhouyi
             var second = (index >> 1) - first * 2;
             var third = index - first * 4 - second * 2;
             return new Core.Painting(
-                first == 0 ? Core.LineAttribute.Yang : Core.LineAttribute.Yin,
-                second == 0 ? Core.LineAttribute.Yang : Core.LineAttribute.Yin,
-                third == 0 ? Core.LineAttribute.Yang : Core.LineAttribute.Yin);
+                first == 0 ? Core.YinYang.Yang : Core.YinYang.Yin,
+                second == 0 ? Core.YinYang.Yang : Core.YinYang.Yin,
+                third == 0 ? Core.YinYang.Yang : Core.YinYang.Yin);
         }
 
         /// <summary>

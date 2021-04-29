@@ -14,11 +14,11 @@ namespace YiJingFramework.References.Zhouyi
         /// </summary>
         public sealed class Line : IEquatable<Line>, IComparable<Line>
         {
-            internal Line(ZhouyiHexagram from, int index, Core.LineAttribute attribute, string text)
+            internal Line(ZhouyiHexagram from, int index, Core.YinYang attribute, string text)
             {
                 this.From = from;
                 this.LineIndex = index;
-                this.LineAttribute = attribute;
+                this.YinYang = attribute;
                 this.LineText = text;
             }
 
@@ -40,7 +40,7 @@ namespace YiJingFramework.References.Zhouyi
             /// 爻性质。
             /// Attribute of the line.
             /// </summary>
-            public Core.LineAttribute LineAttribute { get; }
+            public Core.YinYang YinYang { get; }
 
             /// <summary>
             /// 爻辞。

@@ -16,14 +16,14 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public ZhouyiTrigramTests()
         {
             this.qian = this.yijing.GetTrigram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             ));
             this.li = this.yijing.GetTrigram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             ));
             _ = this.yijing.TryGetTrigram("坤", out this.kun);
         }
@@ -34,14 +34,14 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public void GetPaintingTest()
         {
             Assert.AreEqual(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             ), this.qian.GetPainting());
             Assert.AreEqual(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             ), this.li.GetPainting());
         }
 
@@ -52,20 +52,20 @@ namespace YiJingFramework.References.Zhouyi.Tests
             Assert.IsFalse(this.qian.Equals(null));
             Assert.IsFalse(this.qian.Equals(new object()));
             Assert.IsTrue(this.li.Equals(new Zhouyi("zhouyi/translation.json").GetTrigram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             ))));
             Assert.IsTrue(this.li.Equals((object)new Zhouyi("zhouyi/translation.json").GetTrigram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             ))));
             Assert.IsTrue(this.qian.Equals((object)this.qian));
             Assert.IsTrue(this.qian == new Zhouyi("zhouyi/translation.json").GetTrigram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             )));
             Assert.IsFalse(this.qian == this.li);
             Assert.IsTrue(this.qian != this.li);

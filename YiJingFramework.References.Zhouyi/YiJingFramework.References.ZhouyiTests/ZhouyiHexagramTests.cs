@@ -17,20 +17,20 @@ namespace YiJingFramework.References.Zhouyi.Tests
         public ZhouyiHexagramTests()
         {
             this.qian = this.yijing.GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             ));
             this.weiJi = this.yijing.GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yang
             ));
             _ = this.yijing.TryGetHexagram("师", out this.shi);
         }
@@ -70,29 +70,29 @@ namespace YiJingFramework.References.Zhouyi.Tests
             Assert.IsFalse(this.qian.Equals(null));
             Assert.IsFalse(this.qian.Equals(new object()));
             Assert.IsTrue(this.shi.Equals(new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin
             ))));
             Assert.IsTrue(this.shi.Equals((object)new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin,
-                Core.LineAttribute.Yin
+                Core.YinYang.Yin,
+                Core.YinYang.Yang,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin,
+                Core.YinYang.Yin
             ))));
             Assert.IsTrue(this.qian.Equals((object)this.qian));
             Assert.IsTrue(this.qian == new Zhouyi("zhouyi/translation.json").GetHexagram(new Core.Painting(
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang,
-                Core.LineAttribute.Yang
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang,
+                Core.YinYang.Yang
             )));
             Assert.IsFalse(this.qian == this.shi);
             Assert.IsTrue(this.qian != this.weiJi);

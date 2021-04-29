@@ -52,14 +52,11 @@ namespace YiJingFramework.References.Zhouyi.Translations
         {
             if (line.LineIndex == 0)
             {
-                return string.Format(line.LineAttribute == Core.LineAttribute.Yang ?
+                return string.Format(line.YinYang == Core.YinYang.Yang ?
                     this.patterns.ApplyNines : this.patterns.ApplySixes,
                     Environment.NewLine, line.LineText);
             }
-            var pattern = line.LineAttribute switch {
-                Core.LineAttribute.Yang => this.patterns.YangLines,
-                _ => this.patterns.YinLines
-            };
+            var pattern = line.YinYang.IsYang ? this.patterns.YangLines : this.patterns.YinLines;
             return string.Format(pattern[line.LineIndex - 1], Environment.NewLine, line.LineText);
         }
 

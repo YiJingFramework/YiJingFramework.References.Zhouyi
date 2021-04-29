@@ -286,7 +286,7 @@ namespace YiJingFramework.References.Zhouyi
             for (int i = 0; i < 3; i++)
             {
                 d = d << 1;
-                d += Convert.ToInt32(painting[i] == Core.LineAttribute.Yin);
+                d += Convert.ToInt32(painting[i] == Core.YinYang.Yin);
             }
             return this.trigramsAndHexagrams.GetTrigram(d + 1);
         }
