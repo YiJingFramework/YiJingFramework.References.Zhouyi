@@ -17,7 +17,7 @@ namespace Examples
             _ = zhouyi.TryGetHexagram("同人", out var tongRen);
             Debug.Assert(tongRen is not null);
             Console.WriteLine(tongRen);
-            Console.WriteLine(tongRen.SecondLine.LineAttribute);
+            Console.WriteLine(tongRen.SecondLine.YinYang);
             Console.WriteLine(tongRen.UpperTrigram.Nature);
             Console.WriteLine();
             // Outputs: 第十三卦 同人 天火同人 乾上离下
@@ -33,12 +33,12 @@ namespace Examples
             // 天
 
             var tongRen2 = zhouyi.GetHexagram(new YiJingFramework.Core.Painting(
-                YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yin,
-                YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yang,
-                YiJingFramework.Core.LineAttribute.Yang
+                YiJingFramework.Core.YinYang.Yang,
+                YiJingFramework.Core.YinYang.Yin,
+                YiJingFramework.Core.YinYang.Yang,
+                YiJingFramework.Core.YinYang.Yang,
+                YiJingFramework.Core.YinYang.Yang,
+                YiJingFramework.Core.YinYang.Yang
                 ));
             Console.WriteLine(tongRen.Equals(tongRen2));
             Console.WriteLine();
