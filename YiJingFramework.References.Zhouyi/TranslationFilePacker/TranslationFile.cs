@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static TranslationFilePacker.TranslationFile;
 using static TranslationFilePacker.TranslationFile.TranslationFileHexagrams;
 
@@ -37,7 +34,7 @@ namespace TranslationFilePacker
         {
             internal bool Check()
             {
-                if(!CheckLengthAndNullValue(this.Names, 8))
+                if (!CheckLengthAndNullValue(this.Names, 8))
                 {
                     Console.WriteLine("There should be the translation for 8 trigrams' names.");
                     return false;

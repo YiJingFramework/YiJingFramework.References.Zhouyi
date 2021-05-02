@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YiJingFramework.Core;
 using YiJingFramework.References.Zhouyi.Translations;
 
 namespace YiJingFramework.References.Zhouyi

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using YiJingFramework.Core;
+using YiJingFramework.FiveElements;
 
 namespace YiJingFramework.References.Zhouyi
 {
@@ -26,14 +24,27 @@ namespace YiJingFramework.References.Zhouyi
         public string Name { get; }
         /// <summary>
         /// 卦对应的自然事物。
-        /// Nature of the trigram.
+        /// The corresponding nature of the trigram.
         /// </summary>
         public string Nature { get; }
-        internal ZhouyiTrigram(int index, string name, string nature)
+        /// <summary>
+        /// 卦阴阳。
+        /// The corresponding yin-yang attribute of the trigram.
+        /// </summary>
+        public YinYang YinYang { get; }
+        /// <summary>
+        /// 卦阴阳。
+        /// The corresponding five element of the trigram.
+        /// </summary>
+        public FiveElement FiveElement { get; }
+        internal ZhouyiTrigram(int index, string name, string nature,
+            YinYang yinYang, FiveElement fiveElement)
         {
             this.Index = index;
             this.Name = name;
             this.Nature = nature;
+            this.YinYang = yinYang;
+            this.FiveElement = fiveElement;
         }
 
         /// <summary>

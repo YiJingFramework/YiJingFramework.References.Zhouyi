@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YiJingFramework.Painting.Deriving.Extensions;
-using YiJingFramework.References.Zhouyi;
 
 namespace YiJingFramework.References.Zhouyi.Tests
 {

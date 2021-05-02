@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using YiJingFramework.References.Zhouyi.Exceptions;
+using YiJingFramework.References.Zhouyi.Maps;
 
 namespace YiJingFramework.References.Zhouyi.Translations
 {
@@ -60,6 +54,7 @@ namespace YiJingFramework.References.Zhouyi.Translations
             return -1;
         }
 
+        private readonly TrigramsYinYangsAndFiveElementsMap trigramsYinYangAndFiveElementsMap = new TrigramsYinYangsAndFiveElementsMap();
         internal TrigramsAndHexagrams(
             TranslationFile.TranslationFileHexagrams hexagrams,
             TranslationFile.TranslationFileTrigrams trigrams)
@@ -67,7 +62,9 @@ namespace YiJingFramework.References.Zhouyi.Translations
             this.trigrams = new ZhouyiTrigram[8];
             for (int i = 0; i < 8; i++)
             {
-                this.trigrams[i] = new ZhouyiTrigram(i + 1, trigrams.Names[i], trigrams.Natures[i]);
+                var (yinYang, fiveElement) = this.trigramsYinYangAndFiveElementsMap.GetYinYangAndFiveElement(i);
+                this.trigrams[i] = new ZhouyiTrigram(
+                    i + 1, trigrams.Names[i], trigrams.Natures[i], yinYang, fiveElement);
             }
 
             this.hexagrams = new ZhouyiHexagramValues[64];

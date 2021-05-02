@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using YiJingFramework.References.Zhouyi.Exceptions;
+using YiJingFramework.References.Zhouyi.Maps;
 using YiJingFramework.References.Zhouyi.Translations;
 
 namespace YiJingFramework.References.Zhouyi
@@ -21,7 +18,7 @@ namespace YiJingFramework.References.Zhouyi
         private readonly TrigramsAndHexagrams trigramsAndHexagrams;
         private readonly PatternsAndNumbers patternsAndNumbers;
 
-        private static readonly JsonSerializerOptions jsonSerializerOptions
+        private readonly JsonSerializerOptions jsonSerializerOptions
             = new JsonSerializerOptions() {
                 AllowTrailingCommas = true,
                 ReadCommentHandling = JsonCommentHandling.Skip
@@ -68,7 +65,7 @@ namespace YiJingFramework.References.Zhouyi
             {
                 using (var stream = new StreamReader(translationFilePath))
                     translation = JsonSerializer.Deserialize<TranslationFile>(
-                        stream.ReadToEnd(), jsonSerializerOptions);
+                        stream.ReadToEnd(), this.jsonSerializerOptions);
             }
             catch (IOException e)
             {
@@ -121,7 +118,7 @@ namespace YiJingFramework.References.Zhouyi
             {
                 using (var stream = new StreamReader(translationStream, null, true, -1, leaveOpen))
                     translation = JsonSerializer.Deserialize<TranslationFile>(
-                        stream.ReadToEnd(), jsonSerializerOptions);
+                        stream.ReadToEnd(), this.jsonSerializerOptions);
             }
             catch (JsonException e)
             {
@@ -135,7 +132,7 @@ namespace YiJingFramework.References.Zhouyi
             this.trigramsAndHexagrams = new TrigramsAndHexagrams(
                 translation.Hexagrams, translation.Trigrams);
         }
-
+        private readonly HexagramsTrigramsMap hexagramsTrigramsMap = new HexagramsTrigramsMap();
         /// <summary>
         /// 通过卦画获取别卦。
         /// Get a hexagram by its painting.
@@ -164,7 +161,7 @@ namespace YiJingFramework.References.Zhouyi
                     nameof(painting));
             var l = this.GetTrigram(new Core.Painting(painting[0], painting[1], painting[2]));
             var u = this.GetTrigram(new Core.Painting(painting[3], painting[4], painting[5]));
-            var index = Maps.HexagramsToTrigrams.GetHexagram(l.Index, u.Index);
+            var index = this.hexagramsTrigramsMap.GetHexagram(l.Index, u.Index);
             var t = this.trigramsAndHexagrams.GetHexagram(index);
             return new ZhouyiHexagram(this.patternsAndNumbers,
                 index,
@@ -198,7 +195,7 @@ namespace YiJingFramework.References.Zhouyi
                 throw new ArgumentOutOfRangeException(nameof(index),
                     $"{nameof(index)} should be between 1(include) and 64(include).");
             var t = this.trigramsAndHexagrams.GetHexagram(index);
-            var tri = Maps.HexagramsToTrigrams.GetTrigrams(index);
+            var tri = this.hexagramsTrigramsMap.GetTrigrams(index);
             return new ZhouyiHexagram(this.patternsAndNumbers,
                 index,
                 t.Name,
@@ -238,7 +235,7 @@ namespace YiJingFramework.References.Zhouyi
             if (index != -1)
             {
                 Debug.Assert(t is not null);
-                var tri = Maps.HexagramsToTrigrams.GetTrigrams(index);
+                var tri = this.hexagramsTrigramsMap.GetTrigrams(index);
                 result = new ZhouyiHexagram(this.patternsAndNumbers,
                     index,
                     t.Name,

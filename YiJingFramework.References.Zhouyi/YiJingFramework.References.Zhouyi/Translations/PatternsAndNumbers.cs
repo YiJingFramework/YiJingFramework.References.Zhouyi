@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using YiJingFramework.References.Zhouyi.Exceptions;
 
 namespace YiJingFramework.References.Zhouyi.Translations
 {

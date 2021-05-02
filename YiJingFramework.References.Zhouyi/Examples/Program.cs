@@ -5,9 +5,9 @@ using YiJingFramework.References.Zhouyi;
 
 namespace Examples
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             // Here we read the translation from the resource.
             // You can also save the translation as a file and pass the it's path here.
