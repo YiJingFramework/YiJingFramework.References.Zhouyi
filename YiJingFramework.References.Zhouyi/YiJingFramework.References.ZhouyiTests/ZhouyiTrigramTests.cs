@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using YiJingFramework.Core;
+using YiJingFramework.FiveElements;
 
 namespace YiJingFramework.References.Zhouyi.Tests
 {
@@ -96,12 +98,16 @@ namespace YiJingFramework.References.Zhouyi.Tests
             Assert.AreEqual("乾", this.qian.Name);
             Assert.AreEqual(1, this.qian.Index);
             Assert.AreEqual("天", this.qian.Nature);
+            Assert.AreEqual(YinYang.Yang, this.qian.YinYang);
             Assert.AreEqual("离", this.li.Name);
             Assert.AreEqual(3, this.li.Index);
+            Assert.AreEqual(FiveElement.Fire, this.li.FiveElement);
             Assert.AreEqual("火", this.li.Nature);
             Assert.AreEqual("坤", this.kun.Name);
             Assert.AreEqual(8, this.kun.Index);
             Assert.AreEqual("地", this.kun.Nature);
+            Assert.AreEqual(YinYang.Yin, this.kun.YinYang);
+            Assert.AreEqual(FiveElement.Earth, this.kun.FiveElement);
         }
     }
 }
