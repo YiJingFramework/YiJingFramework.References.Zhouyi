@@ -1,0 +1,1 @@
+> dotnet TranslationFilePacker.dll mytranslation.json out.json
