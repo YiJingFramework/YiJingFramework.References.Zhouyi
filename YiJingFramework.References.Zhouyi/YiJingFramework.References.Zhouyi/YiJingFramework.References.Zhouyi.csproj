@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>yueyinqiu5990</Authors>
-    <Description>YiJingFramework is a C# library (group) about Yi Jing.</Description>
+    <Description>YiJingFramework.References.Zhouyi allows you to get a hexagram with its name, text and so on in Zhouyi.</Description>
     <Copyright>Copyright © 2021 yueyinqiu5990. All rights reserved.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/YiJingFramework/YiJingFramework.References.Zhouyi/wiki</PackageProjectUrl>
@@ -15,7 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>zhouyi;i-ching;yijing;yijingframework</PackageTags>
     <PackageId>YiJingFramework.References.Zhouyi</PackageId>
-    <Version>4.1.0</Version>
+    <Version>5.0.0</Version>
     <Company>YiJingFramework</Company>
   </PropertyGroup>
 
