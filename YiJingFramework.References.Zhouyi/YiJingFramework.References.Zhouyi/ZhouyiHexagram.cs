@@ -109,7 +109,7 @@ namespace YiJingFramework.References.Zhouyi
         public Line ThirdLine { get; }
 
         /// <summary>
-        /// 主卦。
+        /// 下卦。
         /// The lower trigram.
         /// </summary>
         public ZhouyiTrigram LowerTrigram { get; }
@@ -133,7 +133,7 @@ namespace YiJingFramework.References.Zhouyi
         public Line SixthLine { get; }
 
         /// <summary>
-        /// 客卦。
+        /// 上卦。
         /// The upper trigram.
         /// </summary>
         public ZhouyiTrigram UpperTrigram { get; }
